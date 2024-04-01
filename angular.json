@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ejercicios_rutinas": {
+    "practica5": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ejercicios_rutinas",
+            "outputPath": "dist/practica5",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ejercicios_rutinas:build:production"
+              "browserTarget": "practica5:build:production"
             },
             "development": {
-              "browserTarget": "ejercicios_rutinas:build:development"
+              "browserTarget": "practica5:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ejercicios_rutinas:build"
+            "browserTarget": "practica5:build"
           }
         },
         "test": {

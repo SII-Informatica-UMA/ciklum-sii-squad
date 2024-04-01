@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{accion}} ejercicio</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+  
+        <label for="nombre">Nombre:</label>
+        <input class="form-control" id="nombre" [(ngModel)]="ejercicio.nombre" placeholder="nombre">
+        <label for="apellidos">Número de series:</label>
+        <input class="form-control" id="apellidos" [(ngModel)]="ejercicio.series" placeholder="ejercicio">
+        <label for="email">Rango de repeticiones:</label>
+        <input class="form-control" id="email" [(ngModel)]="ejercicio.repeticiones" placeholder="repeticiones">
+        <label for="email">Descripcion:</label>
+        <input class="form-control" id="email" [(ngModel)]="ejercicio.descripcion" placeholder="descripción">
+        <label for="email">Link del video:</label>
+        <input class="form-control" id="email" [(ngModel)]="ejercicio.video" placeholder="vídeo">
+        <label for="email">Foto:</label>
+        <input class="form-control" id="email" [(ngModel)]="ejercicio.foto" placeholder="foto">
+  
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="guardarEjercicio()">Guardar</button>
+  </div>

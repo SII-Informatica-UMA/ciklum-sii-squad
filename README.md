@@ -1,7 +1,27 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/5-86A-DI)
+# Practica5
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 
+## Development server
 
-Microservicio de ejercicios y rutinas definidas por los entrenadores
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-CRUD de ejercicios y rutinas definidas por los entrenadores para los clientes que supervisan. Permitirá a los entrenadores definir ejercicios añadiendo una descripción, foto y vídeo (enlace a vídeo en alguna plataforma como YouTube o Vimeo). También permitirá la creación de rutinas, que son ejercicios agrupados en series con una duración o un número de repeticiones.
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

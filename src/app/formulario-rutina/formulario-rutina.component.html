@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{accion}} rutina</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+
+      <label for="nombre">Nombre:</label>
+      <input class="form-control" id="nombre" [(ngModel)]="rutina.nombre" placeholder="nombre">
+      <label for="apellidos">Ejercicio:</label>
+      <input class="form-control" id="apellidos" [(ngModel)]="rutina.nombre" placeholder="ejercicio">
+      <label for="email">Descripcion:</label>
+      <input class="form-control" id="email" [(ngModel)]="rutina.descripcion" placeholder="descripción">
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="guardarRutina()">Guardar</button>
+</div>

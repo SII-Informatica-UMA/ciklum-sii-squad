@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+      <h2 >Detalles de {{ejercicio?.nombre}}</h2>
+    </div>
+  
+  <div class="row">
+    <label class="col-md-3" for="nombre">Nombre:</label>
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.nombre}}</span>
+  </div>
+  <div class="row">
+    <label class="col-md-3" for="nombre">Series:</label>
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.series}}</span>
+  </div>
+  <div class="row">
+    <label class="col-md-3" for="nombre">Rango de repeticiones</label>
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.repeticiones}}</span>
+  </div>
+  <div class="row">
+    <label class="col-md-3" for="nombre">Descripcion</label>
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.descripcion}}</span>
+  </div>
+  <div class="row">
+    <label class="col-md-3" for="nombre">Link del video</label>
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.video}}</span>
+  </div>
+  <div class="row">
+    <label class="col-md-3" for="nombre">Foto</label>
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.foto}}</span>
+  </div>
+  
+  
+  <div class="row">
+    <button class="col-auto btn btn-outline-primary" (click)="eliminarEjercicio()">Eliminar <i class="bi bi-trash-fill"></i></button>
+    <div class="col-1"></div>
+    <button class="col-auto btn btn-outline-primary" (click)="editarEjercicio()">Editar <i class="bi bi-pencil-fill"></i></button>
+  </div>
+  
+  </div>
+  
