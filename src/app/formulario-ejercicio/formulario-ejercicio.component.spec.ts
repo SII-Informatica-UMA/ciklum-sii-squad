@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FormularioEjercicioComponent } from './formulario-ejercicio.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 describe('FormularioEjercicioComponent', () => {
   let component: FormularioEjercicioComponent;
@@ -8,7 +9,9 @@ describe('FormularioEjercicioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormularioEjercicioComponent ]
+      declarations: [ FormularioEjercicioComponent ],
+      imports: [FormsModule],
+      providers: [NgbActiveModal]
     })
     .compileComponents();
 

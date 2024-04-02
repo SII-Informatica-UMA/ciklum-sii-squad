@@ -1,9 +1,12 @@
 export interface Ejercicio {
-  id: number;
   nombre: string;
-  series: number;
-  repeticiones: string;
   descripcion: string;
+  observaciones: string;
+  tipo: string;
+  musculosTrabajados: string;
+  material: string;
+  dificultad: string;
   video: string;
   foto: string;
+  id: number;
 }

@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
   aniadirEjercicio(): void {
     let ref = this.modalService.open(FormularioEjercicioComponent);
     ref.componentInstance.accion = "Añadir";
-    ref.componentInstance.ejercicio = {nombre: '', repeticiones: 0, descripcion: '', video: '', foto: ''};
+    ref.componentInstance.ejercicio = {id: 0, nombre: '',observaciones: '',tipo: '',musculosTrabajados: '',material: '',dificultad: '', descripcion: '', video: '', foto: ''};
     ref.result.then((ejercicio: Ejercicio) => {
       this.ejercicios.push(ejercicio);
     }, (reason) => {});

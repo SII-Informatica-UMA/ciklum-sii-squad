@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormularioRutinaComponent} from '../formulario-rutina/formulario-rutina.component'
+import {FormularioEjercicioComponent} from '../formulario-ejercicio/formulario-ejercicio.component'
 import { RutinasService } from '../rutina.service';
 import { Rutina } from '../rutina';
 import { Ejercicio } from '../ejercicio';
@@ -37,7 +38,7 @@ export class DetalleEjercicioComponent {
   }
 
   editarEjercicio(): void {
-    let ref = this.modalService.open(FormularioRutinaComponent);
+    let ref = this.modalService.open(FormularioEjercicioComponent);
     ref.componentInstance.accion = "Editar";
     ref.componentInstance.ejercicio = {...this.ejercicio};
     ref.result.then((ejercicio: Ejercicio) => {

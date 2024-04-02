@@ -16,18 +16,24 @@ export class RutinasService {
         {
             id: 1,
             nombre: 'Ejercicio 1',
-            series: 4,
-            repeticiones: '8-10',
             descripcion: 'Press de banca con barra',
+            observaciones: '',
+            tipo: 'Pecho',
+            musculosTrabajados: 'Pecho',
+            material: 'Barra, Banca',
+            dificultad: 'Media',
             video: 'https://www.example.com/video',
             foto: 'https://www.example.com/foto'
         },
         {
             id: 2,
             nombre: 'Ejercicio 2',
-            series: 4,
-            repeticiones: '10-12',
             descripcion: 'Press inclinado con mancuernas',
+            observaciones: '',
+            tipo: 'Pecho',
+            musculosTrabajados: 'Pecho',
+            material: 'Mancuernas',
+            dificultad: 'Media',
             video: 'https://www.example.com/video',
             foto: 'https://www.example.com/foto'
         }
@@ -41,18 +47,24 @@ export class RutinasService {
         { 
             id: 3,
             nombre: 'Ejercicio 1',
-            series: 4,
-            repeticiones: '8-10',
             descripcion: 'Jalon al pecho',
+            observaciones: '',
+            tipo: 'Espalda',
+            musculosTrabajados: 'Espalda',
+            material: 'Jalon',
+            dificultad: 'Media',
             video: 'https://www.example.com/video',
             foto: 'https://www.example.com/foto'
         },
         {
             id: 4,
             nombre: 'Ejercicio 2',
-            series: 4,
-            repeticiones: '10-12',
             descripcion: 'Remo con barra',
+            observaciones: '',
+            tipo: 'Espalda',
+            musculosTrabajados: 'Espalda',
+            material: 'Remo',
+            dificultad: 'Media',
             video: 'https://www.example.com/video',
             foto: 'https://www.example.com/foto'
         }
@@ -65,27 +77,36 @@ private ejercicios: Ejercicio [] = [
 {
   id: 1,
   nombre: 'Ejercicio 1',
-  series: 4,
-  repeticiones: '8-10',
   descripcion: 'Press de banca con barra',
+  observaciones: '',
+  tipo: 'Pecho',
+  musculosTrabajados: 'Pecho',
+  material: 'Barra, Banca',
+  dificultad: 'Media',
   video: 'https://www.example.com/video',
   foto: 'https://www.example.com/foto'
 },
 {
   id: 2,
   nombre: 'Ejercicio 2',
-  series: 4,
-  repeticiones: '10-12',
   descripcion: 'Press inclinado con mancuernas',
+  observaciones: '',
+  tipo: 'Pecho',
+  musculosTrabajados: 'Pecho',
+  material: 'Mancuernas',
+  dificultad: 'Media',
   video: 'https://www.example.com/video',
   foto: 'https://www.example.com/foto'
 },
 {
   id: 3,
   nombre: 'Ejercicio 3',
-  series: 4,
-  repeticiones: '8-12',
   descripcion: 'Jalon al pecho',
+  observaciones: '',
+  tipo: 'Pecho',
+  musculosTrabajados: 'Pecho',
+  material: 'Jalón',
+  dificultad: 'Media',
   video: 'https://www.example.com/video',
   foto: 'https://www.example.com/foto'
 }];
