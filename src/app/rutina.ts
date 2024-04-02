@@ -5,4 +5,5 @@ export interface Rutina {
     nombre: string;
     ejercicios: Ejercicio [];
     descripcion: string;
+    observaciones: string;
   }

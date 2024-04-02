@@ -6,12 +6,21 @@
   <div class="form-group">
 
       <label for="nombre">Nombre:</label>
-      <input class="form-control" id="nombre" [(ngModel)]="rutina.nombre" placeholder="nombre">
-      <label for="apellidos">Ejercicio:</label>
-      <input class="form-control" id="apellidos" [(ngModel)]="rutina.nombre" placeholder="ejercicio">
-      <label for="email">Descripcion:</label>
-      <input class="form-control" id="email" [(ngModel)]="rutina.descripcion" placeholder="descripción">
+      <input class="form-control" id="nombre" [(ngModel)]="rutina.nombre" placeholder="Nombre">
+      <label for="apellidos">Descripciónn:</label>
+      <input class="form-control" id="descripcion" [(ngModel)]="rutina.descripcion" placeholder="Descripciónn">
+      <label for="descripcion">Observaciones:</label>
+      <input class="form-control" id="observaciones" [(ngModel)]="rutina.observaciones" placeholder="Observaciones">
+      <label for="observaciones">Ejercicios:</label>
 
+      <ul class="list-group overflow-scroll">
+        <li class="list-group-item" *ngFor="let ejercicio of ejercicios"
+          
+          (click)="modificaEjercicio(ejercicio)"
+        >
+        <input class='form-check-input' type='checkbox' id="ejercicios" value={{ejercicio.id}} [checked]="buscaEjercicio(ejercicio)">
+        {{ejercicio.nombre}}</li>
+      </ul>
   </div>
 </div>
 <div class="modal-footer">

@@ -39,6 +39,7 @@ export class RutinasService {
         }
         ],
         descripcion: 'Rutina 1',
+        observaciones: '',
     },
     {
         id: 2,
@@ -70,6 +71,7 @@ export class RutinasService {
         }
         ],
         descripcion: 'Rutina 2',
+        observaciones: '',
     }
 ];
 
