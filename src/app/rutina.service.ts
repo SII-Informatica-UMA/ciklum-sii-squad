@@ -144,7 +144,7 @@ private ejercicios: Ejercicio [] = [
   }
 
   editarEjercicio(ejercicio: Ejercicio) {
-    let indice = this.ejercicios.findIndex(c => c.nombre == ejercicio.nombre);
+    let indice = this.ejercicios.findIndex(c => c.id == ejercicio.id);
     this.ejercicios[indice] = ejercicio;
   }
 
