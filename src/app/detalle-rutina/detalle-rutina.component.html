@@ -9,10 +9,11 @@
 </div>
 <div class="row">
   <label class="col-md-3" for="nombre">Ejercicios:</label>
-  <span class="col-md-9 offset-2 offset-md-0">{{rutina?.nombre}}</span>
-</div>
+  <div *ngFor="let ejercicio of rutina?.ejercicios">
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio.nombre}}</span>
+  </div></div>
 <div class="row">
-  <label class="col-md-3" for="nombre">Descripcion:</label>
+  <label class="col-md-3" for="nombre">Descripcion:</label> 
   <span class="col-md-9 offset-2 offset-md-0">{{rutina?.descripcion}}</span>
 </div>
 
