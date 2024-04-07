@@ -5,6 +5,7 @@ import {FormularioEjercicioComponent} from '../formulario-ejercicio/formulario-e
 import { RutinasService } from '../rutina.service';
 import { Rutina } from '../rutina';
 import { Ejercicio } from '../ejercicio';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detalle-ejercicio',
@@ -12,6 +13,7 @@ import { Ejercicio } from '../ejercicio';
   styleUrls: ['./detalle-ejercicio.component.css']
 })
 export class DetalleEjercicioComponent {
+[x: string]: any;
   @Input() rutina?: Rutina;
   @Input() ejercicio?: Ejercicio;
 
@@ -21,7 +23,11 @@ export class DetalleEjercicioComponent {
   @Output() ejercicioEditado = new EventEmitter<Ejercicio>();
   @Output() ejercicioEliminado = new EventEmitter<number>();
 
-  constructor(private rutinasService: RutinasService, private modalService: NgbModal) { }
+  constructor(
+    private rutinasService: RutinasService, 
+    private modalService: NgbModal,
+    public sanitizer: DomSanitizer  // Añade esta línea
+  ) { }
 
 
   editarRutina(): void {
@@ -48,5 +54,11 @@ export class DetalleEjercicioComponent {
 
   eliminarEjercicio(): void {
     this.ejercicioEliminado.emit(this.ejercicio?.id);
+  }
+
+  getEmbedUrl(url: string): SafeResourceUrl {
+    let videoId = url.split('v=')[1];
+    let embedUrl = 'https://www.youtube.com/embed/' + videoId;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 }

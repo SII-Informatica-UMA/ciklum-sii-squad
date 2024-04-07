@@ -29,11 +29,15 @@
   </div>
   <div class="row">
     <label class="col-md-3" for="video">Vídeo:</label>
-    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.video}}</span>
+    <div class="col-md-9 offset-2 offset-md-0">
+      <iframe width="560" height="315" [src]="getEmbedUrl(ejercicio?.video || '')" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </div>
   <div class="row">
     <label class="col-md-3" for="foto">Foto:</label>
-    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.foto}}</span>
+    <div class="col-md-9 offset-2 offset-md-0">
+      <img [src]="ejercicio?.foto" alt="Foto del ejercicio">
+    </div>
   </div>
   
   

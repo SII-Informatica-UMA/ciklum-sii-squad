@@ -8,6 +8,8 @@ import { DetalleRutinaComponent } from './detalle-rutina/detalle-rutina.componen
 import { FormularioRutinaComponent } from './formulario-rutina/formulario-rutina.component';
 import { FormularioEjercicioComponent } from './formulario-ejercicio/formulario-ejercicio.component';
 import { DetalleEjercicioComponent } from './detalle-ejercicio/detalle-ejercicio.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { DetalleEjercicioComponent } from './detalle-ejercicio/detalle-ejercicio
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    MatTabsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

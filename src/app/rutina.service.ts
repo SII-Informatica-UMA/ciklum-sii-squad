@@ -85,7 +85,7 @@ private ejercicios: Ejercicio [] = [
   musculosTrabajados: 'Pecho',
   material: 'Barra, Banca',
   dificultad: 'Media',
-  video: 'https://www.example.com/video',
+  video: 'https://www.youtube.com/watch?v=GeLq8cMODLc',
   foto: 'https://www.example.com/foto'
 },
 {
@@ -97,7 +97,7 @@ private ejercicios: Ejercicio [] = [
   musculosTrabajados: 'Pecho',
   material: 'Mancuernas',
   dificultad: 'Media',
-  video: 'https://www.example.com/video',
+  video: 'https://www.youtube.com/watch?v=MkMf308jXww',
   foto: 'https://www.example.com/foto'
 },
 {
@@ -109,7 +109,7 @@ private ejercicios: Ejercicio [] = [
   musculosTrabajados: 'Pecho',
   material: 'Jalón',
   dificultad: 'Media',
-  video: 'https://www.example.com/video',
+  video: 'https://www.youtube.com/watch?v=72q0tKij5uU',
   foto: 'https://www.example.com/foto'
 }];
 
