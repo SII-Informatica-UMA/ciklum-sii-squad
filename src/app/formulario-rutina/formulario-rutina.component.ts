@@ -12,8 +12,13 @@ import { Ejercicio } from '../ejercicio';
 export class FormularioRutinaComponent {
   accion!: "Añadir" | "Editar";
   rutina: Rutina = {id: 0, nombre: '', ejercicios: [], descripcion: '',observaciones: ''};
-  ejercicios: Ejercicio [] = this.rutinaService.getEjercicios();
-  constructor(public modal: NgbActiveModal, private rutinaService: RutinasService) { }
+  ejercicios: Ejercicio[] = [];
+
+  constructor(public modal: NgbActiveModal, private rutinaService: RutinasService) {
+    this.rutinaService.getEjercicios().subscribe(result => {
+      this.ejercicios = result;
+    });
+  }
 
   guardarRutina(): void {
     this.modal.close(this.rutina);

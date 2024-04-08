@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Rutina} from './rutina';
 import { Ejercicio } from './ejercicio';
+import { BackendService } from "./backend.service";
+import { Observable, map, of } from "rxjs";
+import { BackendFakeService } from './bakend.fake.service';
 
 @Injectable({
   providedIn: 'root'
@@ -114,44 +117,37 @@ private ejercicios: Ejercicio [] = [
 }];
 
 
-  constructor() { }
+  constructor(private backend: BackendFakeService) { }
 
-
-
-  getRutinas(): Rutina [] {
-    return this.rutinas;
+  getRutinas(): Observable<Rutina[]> {
+    return this.backend.getRutinas();
   }
 
-  addRutina(rutina: Rutina) {
-    rutina.id = Math.max(...this.rutinas.map(c => c.id)) + 1;
-    this.rutinas.push(rutina);
+  addRutina(rutina: Rutina) : Observable<Rutina>{ 
+    return this.backend.postRutina(rutina);
   }
 
-  editarRutina(rutina: Rutina) {
-    let indice = this.rutinas.findIndex(c => c.id == rutina.id);
-    this.rutinas[indice] = rutina;
+  editarRutina(rutina: Rutina) : Observable<Rutina>{
+    return this.backend.putRutina(rutina);
   }
 
-  eliminarRutina(id: number) {
-    let indice = this.rutinas.findIndex(c => c.id == id);
-    this.rutinas.splice(indice, 1);
+  eliminarRutina(id: number) : Observable<void | number>{
+    return this.backend.deleteRutina(id);
   }
 
-  getEjercicios(): Ejercicio [] {
-    return this.ejercicios;
+  getEjercicios(): Observable<Ejercicio []> {
+    return this.backend.getEjercicios();
   }
 
-  addEjercicio(ejercicio: Ejercicio) {
-    this.ejercicios.push(ejercicio);
+  addEjercicio(ejercicio: Ejercicio) : Observable<Ejercicio>{
+    return this.backend.postEjercicio(ejercicio);
   }
 
-  editarEjercicio(ejercicio: Ejercicio) {
-    let indice = this.ejercicios.findIndex(c => c.id == ejercicio.id);
-    this.ejercicios[indice] = ejercicio;
+  editarEjercicio(ejercicio: Ejercicio) : Observable<Ejercicio> {
+    return this.backend.putEjercicio(ejercicio);
   }
 
-  eliminarEjercicio(id: number) {
-    let indice = this.ejercicios.findIndex(c => c.id == id);
-    this.ejercicios.splice(indice, 1);
+  eliminarEjercicio(id: number) : Observable<void | number> {
+    return this.backend.deleteEjercicio(id);
   }
 }
