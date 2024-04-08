@@ -11,7 +11,7 @@ import { Ejercicio } from '../ejercicio';
 export class FormularioEjercicioComponent {
   accion!: "Añadir" | "Editar";
   rutina: Rutina = {id: 0, nombre: '', ejercicios: [], descripcion: '',observaciones: ''};
-  ejercicio: Ejercicio = {id: 0, nombre: '',observaciones: '',tipo: '',musculosTrabajados: '',material: '',dificultad: '', descripcion: '', video: '', foto: ''};
+  ejercicio: Ejercicio = {id: 0, nombre: '',observaciones: '', duracion: '', tipo: '',musculosTrabajados: '',material: '',dificultad: '', descripcion: '', video: '', foto: ''};
 
   constructor(public modal: NgbActiveModal) { }
 
