@@ -21,6 +21,7 @@ import { Observable, of } from "rxjs";
                 nombre: 'Ejercicio 1',
                 descripcion: 'Press de banca con barra',
                 observaciones: '',
+                duracion: '',
                 tipo: 'Pecho',
                 musculosTrabajados: 'Pecho',
                 material: 'Barra, Banca',
@@ -33,6 +34,7 @@ import { Observable, of } from "rxjs";
                 nombre: 'Ejercicio 2',
                 descripcion: 'Press inclinado con mancuernas',
                 observaciones: '',
+                duracion: '',
                 tipo: 'Pecho',
                 musculosTrabajados: 'Pecho',
                 material: 'Mancuernas',
@@ -54,6 +56,7 @@ import { Observable, of } from "rxjs";
                 descripcion: 'Jalon al pecho',
                 observaciones: '',
                 tipo: 'Espalda',
+                duracion: '',
                 musculosTrabajados: 'Espalda',
                 material: 'Jalon',
                 dificultad: 'Media',
@@ -66,6 +69,7 @@ import { Observable, of } from "rxjs";
                 descripcion: 'Remo con barra',
                 observaciones: '',
                 tipo: 'Espalda',
+                duracion: '',
                 musculosTrabajados: 'Espalda',
                 material: 'Remo',
                 dificultad: 'Media',
@@ -89,7 +93,8 @@ import { Observable, of } from "rxjs";
       material: 'Barra, Banca',
       dificultad: 'Media',
       video: 'https://www.youtube.com/watch?v=GeLq8cMODLc',
-      foto: 'https://www.example.com/foto'
+      foto: 'https://www.example.com/foto',
+      duracion: ''
     },
     {
       id: 2,
@@ -101,7 +106,8 @@ import { Observable, of } from "rxjs";
       material: 'Mancuernas',
       dificultad: 'Media',
       video: 'https://www.youtube.com/watch?v=MkMf308jXww',
-      foto: 'https://www.example.com/foto'
+      foto: 'https://www.example.com/foto',
+      duracion: ''
     },
     {
       id: 3,
@@ -113,7 +119,8 @@ import { Observable, of } from "rxjs";
       material: 'Jalón',
       dificultad: 'Media',
       video: 'https://www.youtube.com/watch?v=72q0tKij5uU',
-      foto: 'https://www.example.com/foto'
+      foto: 'https://www.example.com/foto',
+      duracion: ''
     }];
 
     getRutinas(): Observable<Rutina[]> {
