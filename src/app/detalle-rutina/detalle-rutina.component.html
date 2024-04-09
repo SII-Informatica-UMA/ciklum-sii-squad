@@ -5,20 +5,34 @@
 
   <div class="row align-items-start">
     <label class="col-md-2" for="nombre">Nombre:</label>
-    <span class="col-md-10">{{rutina?.nombre}}</span>
+    <span class="col-md-9 offset-2 offset-md-0">{{rutina?.nombre}}</span>
   </div>
   <div class="row align-items-start">
-    <label class="col-md-2" for="nombre">Ejercicios:</label>
-    <div class="col-md-10">
+    <label class="col-md-2" for="descripcion">Descripcion:</label> 
+    <span class="col-md-9 offset-2 offset-md-0">{{rutina?.descripcion}}</span>
+  </div>
+  <div class="row align-items-start">
+    <label class="col-md-2" for="observaciones">Observaciones:</label> 
+    <span class="col-md-9 offset-2 offset-md-0">{{rutina?.descripcion}}</span>
+  </div>
+  <div class="row align-items-start">
+    <label class="col-md-2" for="ejercicios">Ejercicios:</label>
+    <div class="col-md-9 offset-2 offset-md-0">
       <div *ngFor="let ejercicio of rutina?.ejercicios">
         {{ejercicio.ejercicio.nombre}}
+        <div class="row align-items-start">
+          <label class="col-md-9 offset-2 offset-md-0" for="series">Series: {{ejercicio.series}}</label> 
+        </div>
+        <div class="row align-items-start">
+          <label class="col-md-9 offset-2 offset-md-0" for="repeticiones">Repeticiones: {{ejercicio.repeticiones}}</label> 
+        </div>
+        <div class="row align-items-start">
+          <label class="col-md-9 offset-2 offset-md-0" for="duracionMinutos">Duracion (en min): {{ejercicio.duracionMinutos}}</label>
+        </div>
       </div>
     </div>
   </div>
-  <div class="row align-items-start">
-    <label class="col-md-2" for="nombre">Descripcion:</label> 
-    <span class="col-md-10">{{rutina?.descripcion}}</span>
-  </div>
+  
 
   <div class="row">
     <button class="col-auto btn btn-outline-primary" (click)="eliminarRutina()">Eliminar <i class="bi bi-trash-fill"></i></button>
