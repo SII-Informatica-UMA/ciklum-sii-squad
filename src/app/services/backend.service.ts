@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable, map, of } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { Rutina } from "./rutina";
-import { Ejercicio } from "./ejercicio";
+import { Rutina } from "../entities/rutina";
+import { Ejercicio } from "../entities/ejercicio";
 
 @Injectable({
     providedIn: 'root'

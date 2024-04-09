@@ -1,15 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Rutina } from "./rutina";
-import { Ejercicio } from "./ejercicio";
+import { Rutina } from "../entities/rutina";
+import { Ejercicio } from "../entities/ejercicio";
 import { Observable, of } from "rxjs";
-
-
 
 
 @Injectable({
     providedIn: 'root'
   })
-  export class BackendFakeService {
+  export class BackendService {
 
     private rutinas: Rutina [] = [
         {

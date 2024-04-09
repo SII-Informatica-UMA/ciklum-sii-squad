@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RutinasService } from './rutina.service';
+import { RutinasService } from './services/rutina.service';
+import { EjercicioService } from './services/ejercicio.service'
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormularioRutinaComponent} from './formulario-rutina/formulario-rutina.component'
-import { Rutina } from './rutina';
-import { Ejercicio } from './ejercicio';
+import { Rutina } from './entities/rutina';
+import { Ejercicio } from './entities/ejercicio';
 import { FormularioEjercicioComponent } from './formulario-ejercicio/formulario-ejercicio.component';
 
 @Component({
@@ -17,13 +18,13 @@ export class AppComponent implements OnInit {
   ejercicioElegido?: Ejercicio;
   rutinaElegida?: Rutina;
 
-  constructor(private rutinaService: RutinasService, private modalService: NgbModal) { }
+  constructor(private rutinaService: RutinasService, private ejercicioService: EjercicioService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.rutinaService.getRutinas().subscribe(rutinas => {
       this.rutinas = rutinas;
     });
-    this.rutinaService.getEjercicios().subscribe(ejercicios => {
+    this.ejercicioService.getEjercicios().subscribe(ejercicios => {
       this.ejercicios = ejercicios;
     });
   }
@@ -76,16 +77,16 @@ export class AppComponent implements OnInit {
   }
 
   ejercicioEditado(ejercicio: Ejercicio): void {
-    this.rutinaService.editarEjercicio(ejercicio);
-    this.rutinaService.getEjercicios().subscribe(ejercicios => {
+    this.ejercicioService.editarEjercicio(ejercicio);
+    this.ejercicioService.getEjercicios().subscribe(ejercicios => {
       this.ejercicios = ejercicios;
       this.ejercicioElegido = this.ejercicios.find(c => c.nombre == ejercicio.nombre);
     });
   }
 
   eliminarEjercicio(id: number): void {
-    this.rutinaService.eliminarEjercicio(id);
-    this.rutinaService.getEjercicios().subscribe(ejercicios => {
+    this.ejercicioService.eliminarEjercicio(id);
+    this.ejercicioService.getEjercicios().subscribe(ejercicios => {
       this.ejercicios = ejercicios;
       this.ejercicioElegido = undefined;
     });

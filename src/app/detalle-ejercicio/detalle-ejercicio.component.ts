@@ -1,10 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormularioRutinaComponent} from '../formulario-rutina/formulario-rutina.component'
 import {FormularioEjercicioComponent} from '../formulario-ejercicio/formulario-ejercicio.component'
-import { RutinasService } from '../rutina.service';
-import { Rutina } from '../rutina';
-import { Ejercicio } from '../ejercicio';
+import { Ejercicio } from '../entities/ejercicio';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -14,34 +11,14 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class DetalleEjercicioComponent {
 [x: string]: any;
-  @Input() rutina?: Rutina;
   @Input() ejercicio?: Ejercicio;
-
-  @Output() rutinaEditada = new EventEmitter<Rutina>();
-  @Output() rutinaEliminada = new EventEmitter<number>();
-
   @Output() ejercicioEditado = new EventEmitter<Ejercicio>();
   @Output() ejercicioEliminado = new EventEmitter<number>();
 
   constructor(
-    private rutinasService: RutinasService, 
     private modalService: NgbModal,
     public sanitizer: DomSanitizer  // Añade esta línea
   ) { }
-
-
-  editarRutina(): void {
-    let ref = this.modalService.open(FormularioRutinaComponent);
-    ref.componentInstance.accion = "Editar";
-    ref.componentInstance.rutina = {...this.rutina};
-    ref.result.then((rutina: Rutina) => {
-      this.rutinaEditada.emit(rutina);
-    }, (reason) => {});
-  }
-
-  eliminarRutina(): void {
-    this.rutinaEliminada.emit(this.rutina?.id);
-  }
 
   editarEjercicio(): void {
     let ref = this.modalService.open(FormularioEjercicioComponent);

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Rutina } from '../rutina';
-import { Ejercicio } from '../ejercicio'
-import { RutinasService } from '../rutina.service';
-import { Ejercicio_rutina } from '../ejercicio_rutina';
+import { Rutina } from '../entities/rutina';
+import { Ejercicio } from '../entities/ejercicio'
+import { EjercicioService } from '../services/ejercicio.service'
+import { Ejercicio_rutina } from '../entities/ejercicio_rutina';
 
 @Component({
   selector: 'app-formulario-rutina',
@@ -15,8 +15,8 @@ export class FormularioRutinaComponent {
   rutina: Rutina = {id: 0, nombre: '', ejercicios: [], descripcion: '',observaciones: ''};
   ejercicios: Ejercicio_rutina[] = [];
 
-  constructor(public modal: NgbActiveModal, private rutinaService: RutinasService) {
-    this.rutinaService.getEjercicios().subscribe(result => {
+  constructor(public modal: NgbActiveModal, private ejercicioService: EjercicioService) {
+    this.ejercicioService.getEjercicios().subscribe(result => {
       for (let i = 0; i < result.length; i++) {
         this.ejercicios.push({series:0,repeticiones:0,duracionMinutos:0,ejercicio: result[i]})
       }

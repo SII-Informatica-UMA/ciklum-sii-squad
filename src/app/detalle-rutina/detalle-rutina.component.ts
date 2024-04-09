@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormularioRutinaComponent} from '../formulario-rutina/formulario-rutina.component'
-import { RutinasService } from '../rutina.service';
-import { Rutina } from '../rutina';
+import { RutinasService } from '../services/rutina.service';
+import { Rutina } from '../entities/rutina';
 
 @Component({
   selector: 'app-detalle-rutina',
