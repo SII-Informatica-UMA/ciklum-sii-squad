@@ -128,7 +128,7 @@ export class BackendService {
   }
 ];
 
-  getRutinas(): Observable<Rutina[]> {
+  getRutinas(entrenadorId: number): Observable<Rutina[]> {
       return of(this.rutinas);
   }
   
@@ -150,11 +150,11 @@ export class BackendService {
     return of(id);
   }
   
-  getEjercicios(): Observable<Ejercicio[]> {
+  getEjercicios(entrenadorId: number): Observable<Ejercicio[]> {
     return of(this.ejercicios);
   }
   
-  postEjercicio(ejercicio: Ejercicio): Observable<Ejercicio> {
+  postEjercicio(ejercicio: Ejercicio, entrenadorId: number): Observable<Ejercicio> {
     this.ejercicios.push(ejercicio);
     return of(ejercicio);
   }

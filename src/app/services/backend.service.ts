@@ -37,19 +37,19 @@ export class BackendService {
         return this.httpClient.delete<void>(this.BACKEND_URI + '/ejercicio/' + id);
     }
 
-    getRutinas(): Observable<Rutina[]> {
-        return this.httpClient.get<Rutina[]>(this.BACKEND_URI + '/rutina');
+    getRutinas(entrenadorId: number): Observable<Rutina[]> {
+        return this.httpClient.get<Rutina[]>(this.BACKEND_URI + '/rutina?entrenador='+entrenadorId);
     }
 
-    postRutina(rutina: Rutina): Observable<Rutina> {
-        return this.httpClient.post<Rutina>(this.BACKEND_URI + '/rutina', rutina);
+    postRutina(rutina: Rutina, entrenadorId: number): Observable<Rutina> {
+        return this.httpClient.post<Rutina>(this.BACKEND_URI + '/rutina?entrenador='+entrenadorId, rutina);
     }
 
-    getEjercicios(): Observable<Ejercicio[]> {
-        return this.httpClient.get<Ejercicio[]>(this.BACKEND_URI + '/ejercicio');
+    getEjercicios(entrenadorId: number): Observable<Ejercicio[]> {
+        return this.httpClient.get<Ejercicio[]>(this.BACKEND_URI + '/ejercicio?entrenador='+entrenadorId);
     }
 
-    postEjercicio(ejercicio: Ejercicio): Observable<Ejercicio> {
-        return this.httpClient.post<Ejercicio>(this.BACKEND_URI + '/ejercicio', ejercicio);
+    postEjercicio(ejercicio: Ejercicio, entrenadorId: number): Observable<Ejercicio> {
+        return this.httpClient.post<Ejercicio>(this.BACKEND_URI + '/ejercicio?entrenador='+entrenadorId, ejercicio);
     }
 }
