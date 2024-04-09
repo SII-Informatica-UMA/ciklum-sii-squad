@@ -1,9 +1,9 @@
-import { Ejercicio } from './ejercicio'; 
+import { Ejercicio_rutina } from './ejercicio_rutina'; 
 
 export interface Rutina {
     id: number;
     nombre: string;
-    ejercicios: Ejercicio [];
+    ejercicios: Ejercicio_rutina [];
     descripcion: string;
     observaciones: string;
   }

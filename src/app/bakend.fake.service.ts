@@ -17,6 +17,10 @@ import { Observable, of } from "rxjs";
             nombre: 'Pecho',
             ejercicios: [
             {
+              series: 1,
+              repeticiones: 1,
+              duracionMinutos: 5,
+            ejercicio: {
                 id: 1,
                 nombre: 'Ejercicio 1',
                 descripcion: 'Press de banca con barra',
@@ -28,8 +32,13 @@ import { Observable, of } from "rxjs";
                 dificultad: 'Media',
                 video: 'https://www.example.com/video',
                 foto: 'https://www.example.com/foto'
-            },
-            {
+            }
+          },
+          {
+            series: 1,
+            repeticiones: 1,
+            duracionMinutos: 5,
+          ejercicio:{
                 id: 2,
                 nombre: 'Ejercicio 2',
                 descripcion: 'Press inclinado con mancuernas',
@@ -42,6 +51,7 @@ import { Observable, of } from "rxjs";
                 video: 'https://www.example.com/video',
                 foto: 'https://www.example.com/foto'
             }
+          }
             ],
             descripcion: 'Rutina 1',
             observaciones: '',
@@ -50,7 +60,11 @@ import { Observable, of } from "rxjs";
             id: 2,
             nombre: 'Espalda',
             ejercicios: [
-            { 
+              {
+                series: 1,
+                repeticiones: 1,
+                duracionMinutos: 5,
+              ejercicio:{ 
                 id: 3,
                 nombre: 'Ejercicio 1',
                 descripcion: 'Jalon al pecho',
@@ -62,8 +76,13 @@ import { Observable, of } from "rxjs";
                 dificultad: 'Media',
                 video: 'https://www.example.com/video',
                 foto: 'https://www.example.com/foto'
-            },
-            {
+            }
+          },
+          {
+            series: 1,
+            repeticiones: 1,
+            duracionMinutos: 5,
+          ejercicio:{
                 id: 4,
                 nombre: 'Ejercicio 2',
                 descripcion: 'Remo con barra',
@@ -76,6 +95,7 @@ import { Observable, of } from "rxjs";
                 video: 'https://www.example.com/video',
                 foto: 'https://www.example.com/foto'
             }
+          }
             ],
             descripcion: 'Rutina 2',
             observaciones: '',

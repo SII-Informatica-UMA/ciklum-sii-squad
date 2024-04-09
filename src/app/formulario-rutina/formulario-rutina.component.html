@@ -15,11 +15,13 @@
 
       <ul class="list-group overflow-scroll">
         <li class="list-group-item" *ngFor="let ejercicio of ejercicios"
-          
-          (click)="modificaEjercicio(ejercicio)"
         >
-        <input class='form-check-input' type='checkbox' id="ejercicios" value={{ejercicio.id}} [checked]="buscaEjercicio(ejercicio)">
-        {{ejercicio.nombre}}</li>
+        <input class='form-check-input' type='checkbox' (click)="modificaEjercicio(ejercicio)" id="ejercicios" value={{ejercicio.ejercicio.id}} [checked]="buscaEjercicio(ejercicio)">
+        {{ejercicio.ejercicio.nombre}}
+          <label for="Seies">Series:</label><input class="form-control" id="series" [(ngModel)]="ejercicio.series" placeholder="0">
+          <label for="Repeticiones">Repeticiones:</label><input class="form-control" id="Repeticiones" [(ngModel)]="ejercicio.repeticiones" placeholder="0">
+          <label for="Duracion">Duracion(en min):</label><input class="form-control" id="duracion" [(ngModel)]="ejercicio.duracionMinutos" placeholder="0">
+        </li>
       </ul>
   </div>
 </div>
