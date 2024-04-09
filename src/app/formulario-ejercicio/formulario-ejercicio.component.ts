@@ -9,11 +9,14 @@ import { Ejercicio } from '../entities/ejercicio';
 })
 export class FormularioEjercicioComponent {
   accion!: "Añadir" | "Editar";
-  ejercicio: Ejercicio = {id: 0, nombre: '',observaciones: '', duracion: '', tipo: '',musculosTrabajados: '',material: '',dificultad: '', descripcion: '', video: '', foto: ''};
+  ejercicio: Ejercicio = {id: 0, nombre: '',observaciones: '', tipo: '',musculosTrabajados: '',material: '',dificultad: '', descripcion: '', multimedia: []};
+
 
   constructor(public modal: NgbActiveModal) { }
 
   guardarEjercicio(): void {
     this.modal.close(this.ejercicio);
   }
+
+
 }

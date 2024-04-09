@@ -16,10 +16,6 @@
     <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.observaciones}}</span>
   </div>
   <div class="row">
-    <label class="col-md-3" for="duracion">Duración:</label>
-    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.duracion}}</span>
-  </div>
-  <div class="row">
     <label class="col-md-3" for="musculosTrabajados">Músculos Trabajados:</label>
     <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.musculosTrabajados}}</span>
   </div>
@@ -32,16 +28,8 @@
     <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.dificultad}}</span>
   </div>
   <div class="row">
-    <label class="col-md-3" for="video">Vídeo:</label>
-    <div class="col-md-9 offset-2 offset-md-0">
-      <iframe width="560" height="315" [src]="getEmbedUrl(ejercicio?.video || '')" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-  </div>
-  <div class="row">
-    <label class="col-md-3" for="foto">Foto:</label>
-    <div class="col-md-9 offset-2 offset-md-0">
-      <img [src]="ejercicio?.foto" alt="Foto del ejercicio">
-    </div>
+    <label class="col-md-3" for="multimedia">Multimedia:</label>
+    <span class="col-md-9 offset-2 offset-md-0">{{ejercicio?.multimedia}}</span>
   </div>
   
   
@@ -51,5 +39,5 @@
     <button class="col-auto btn btn-outline-primary" (click)="editarEjercicio()">Editar <i class="bi bi-pencil-fill"></i></button>
   </div>
   
-  </div>
+</div>
   
