@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Rutina} from '../entities/rutina';
 import { Ejercicio } from '../entities/ejercicio';
 import { Observable, map, of } from "rxjs";
-import { BackendService } from './backend.service';
+import { BackendService } from './bakend.fake.service';
 
 @Injectable({
   providedIn: 'root'

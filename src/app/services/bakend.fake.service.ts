@@ -132,7 +132,7 @@ export class BackendService {
       return of(this.rutinas);
   }
   
-  postRutina(rutina: Rutina) : Observable<Rutina>{
+  postRutina(rutina: Rutina, entrenadorId: number) : Observable<Rutina>{
       rutina.id = Math.max(...this.rutinas.map(c => c.id)) + 1;
       this.rutinas.push(rutina);
       return of(rutina);

@@ -19,16 +19,7 @@
     <label class="col-md-2" for="ejercicios">Ejercicios:</label>
     <div class="col-md-9 offset-2 offset-md-0">
       <div *ngFor="let ejercicio of rutina?.ejercicios">
-        {{ejercicio.ejercicio.nombre}}
-        <div class="row align-items-start">
-          <label class="col-md-9 offset-2 offset-md-0" for="series">Series: {{ejercicio.series}}</label> 
-        </div>
-        <div class="row align-items-start">
-          <label class="col-md-9 offset-2 offset-md-0" for="repeticiones">Repeticiones: {{ejercicio.repeticiones}}</label> 
-        </div>
-        <div class="row align-items-start">
-          <label class="col-md-9 offset-2 offset-md-0" for="duracionMinutos">Duracion (en min): {{ejercicio.duracionMinutos}}</label>
-        </div>
+        <b>{{ejercicio.ejercicio.nombre}}:</b> Series:{{ejercicio.series}}, Repeticiones:{{ejercicio.repeticiones}}, Duracion (en minutos):{{ejercicio.duracionMinutos}}
       </div>
     </div>
   </div>
