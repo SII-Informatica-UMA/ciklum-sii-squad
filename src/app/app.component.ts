@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   ejercicioElegido?: Ejercicio;
   rutinaElegida?: Rutina;
 
+
   constructor(private rutinaService: RutinasService, private ejercicioService: EjercicioService, private modalService: NgbModal) { }
 
   ngOnInit(): void {

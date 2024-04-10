@@ -11,6 +11,7 @@ import { DetalleEjercicioComponent } from './detalle-ejercicio/detalle-ejercicio
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FormularioRutinaEjercicioComponent } from './formulario-rutina-ejercicio/formulario-rutina-ejercicio.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     DetalleRutinaComponent,
     FormularioRutinaComponent,
     FormularioEjercicioComponent,
-    DetalleEjercicioComponent
+    DetalleEjercicioComponent,
+    FormularioRutinaEjercicioComponent
   ],
   imports: [
     BrowserModule,

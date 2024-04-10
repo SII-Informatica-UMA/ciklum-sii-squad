@@ -59,7 +59,7 @@ export class BackendService {
           repeticiones: 1,
           duracionMinutos: 5,
           ejercicio:{ 
-            id: 3,
+            id: 1,
             nombre: 'Ejercicio 1',
             descripcion: 'Jalon al pecho',
             observaciones: '',
@@ -75,7 +75,7 @@ export class BackendService {
           repeticiones: 1,
           duracionMinutos: 5,
           ejercicio:{
-              id: 4,
+              id: 2,
               nombre: 'Ejercicio 2',
               descripcion: 'Remo con barra',
               observaciones: '',

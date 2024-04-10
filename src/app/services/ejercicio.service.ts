@@ -8,9 +8,11 @@ import { BackendService } from './backend.service';
 @Injectable({
     providedIn: 'root'
   })
-  export class EjercicioService {
-    constructor(private backend: BackendService) { }
-getEjercicios(): Observable<Ejercicio []> {
+
+export class EjercicioService {
+  constructor(private backend: BackendService) { }
+  
+  getEjercicios(): Observable<Ejercicio []> {
     return this.backend.getEjercicios(0);
   }
 
@@ -25,4 +27,4 @@ getEjercicios(): Observable<Ejercicio []> {
   eliminarEjercicio(id: number) : Observable<void | number> {
     return this.backend.deleteEjercicio(id);
   }
-  }
+}
