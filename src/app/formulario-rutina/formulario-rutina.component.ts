@@ -52,7 +52,7 @@ export class FormularioRutinaComponent {
   ejercicioRutina(ejercicio: Ejercicio_rutina): void{
     let ref = this.modalService.open(FormularioRutinaEjercicioComponent);
     let idx = this.ejercicios.findIndex(x => x.ejercicio.id === ejercicio.ejercicio.id);
-    ref.componentInstance.ejercicioRutina = this.rutina.ejercicios[idx];
+    ref.componentInstance.ejercicioRutina = {...this.rutina.ejercicios[idx]};
     ref.result.then((ejercicio: Ejercicio_rutina) => {     
         this.rutina.ejercicios[idx] = ejercicio;
     }, (reason) => {});
