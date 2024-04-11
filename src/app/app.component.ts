@@ -40,27 +40,30 @@ export class AppComponent implements OnInit {
     ref.componentInstance.accion = "Añadir";
     ref.componentInstance.rutina = {id: 0, nombre: '', ejercicios: [], descripcion: ''};
     ref.result.then((rutina: Rutina) => {
-      this.rutinaService.addRutina(rutina);
-      this.rutinaService.getRutinas().subscribe(rutinas => {
-        this.rutinas = rutinas;
+      this.rutinaService.addRutina(rutina).subscribe(r => {
+        this.rutinaService.getRutinas().subscribe(rutinas => {
+          this.rutinas = rutinas;
+        });
       });
     }, (reason) => {});
 
   }
 
   rutinaEditada(rutina: Rutina): void {
-    this.rutinaService.editarRutina(rutina);
-    this.rutinaService.getRutinas().subscribe(rutinas => {
-      this.rutinas = rutinas;
-      this.rutinaElegida = this.rutinas.find(c => c.id == rutina.id);
+    this.rutinaService.editarRutina(rutina).subscribe( r => {
+      this.rutinaService.getRutinas().subscribe(rutinas => {
+        this.rutinas = rutinas;
+        this.rutinaElegida = this.rutinas.find(c => c.id == rutina.id);
+      });
     });
   }
 
   eliminarRutina(id: number): void {
-    this.rutinaService.eliminarRutina(id);
-    this.rutinaService.getRutinas().subscribe(rutinas => {
-      this.rutinas = rutinas;
-      this.rutinaElegida = undefined;
+    this.rutinaService.eliminarRutina(id).subscribe( r => {
+      this.rutinaService.getRutinas().subscribe(rutinas => {
+        this.rutinas = rutinas;
+        this.rutinaElegida = undefined;
+      });
     });
   }
 
@@ -73,23 +76,29 @@ export class AppComponent implements OnInit {
     ref.componentInstance.accion = "Añadir";
     ref.componentInstance.ejercicio = {id: 0, nombre: '',observaciones: '',tipo: '',musculosTrabajados: '',material: '',dificultad: '', descripcion: '', video: '', foto: ''};
     ref.result.then((ejercicio: Ejercicio) => {
-      this.ejercicios.push(ejercicio);
+      this.ejercicioService.addEjercicio(ejercicio).subscribe( ej => {
+        this.ejercicioService.getEjercicios().subscribe(ejercicios => {
+          this.ejercicios = ejercicios;
+        });
+      });
     }, (reason) => {});
   }
 
   ejercicioEditado(ejercicio: Ejercicio): void {
-    this.ejercicioService.editarEjercicio(ejercicio);
-    this.ejercicioService.getEjercicios().subscribe(ejercicios => {
-      this.ejercicios = ejercicios;
-      this.ejercicioElegido = this.ejercicios.find(c => c.nombre == ejercicio.nombre);
+    this.ejercicioService.editarEjercicio(ejercicio).subscribe( je => {
+     this.ejercicioService.getEjercicios().subscribe(ejercicios => {
+        this.ejercicios = ejercicios;
+        this.ejercicioElegido = this.ejercicios.find(c => c.nombre == ejercicio.nombre);
+      });
     });
   }
 
   eliminarEjercicio(id: number): void {
-    this.ejercicioService.eliminarEjercicio(id);
-    this.ejercicioService.getEjercicios().subscribe(ejercicios => {
-      this.ejercicios = ejercicios;
-      this.ejercicioElegido = undefined;
+    this.ejercicioService.eliminarEjercicio(id).subscribe( ej => {
+     this.ejercicioService.getEjercicios().subscribe(ejercicios => {
+        this.ejercicios = ejercicios;
+        this.ejercicioElegido = undefined;
+      });
     });
   }
 
