@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{accion}} ejercicio</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+  
+        <label for="nombre">Nombre:</label>
+        <input class="form-control" id="nombre" [(ngModel)]="ejercicio.nombre" placeholder="Nombre">
+        <label for="descripcion">Descripción:</label>
+        <input class="form-control" id="descripcion" [(ngModel)]="ejercicio.descripcion" placeholder="Descripcion">
+        <label for="observaciones">Observaciones:</label>
+        <input class="form-control" id="observaciones" [(ngModel)]="ejercicio.observaciones" placeholder="Observaciones">
+        <label for="tipo">Tipo:</label>
+        <input class="form-control" id="tipo" [(ngModel)]="ejercicio.tipo" placeholder="Tipo">
+        <label for="musculosTrabajados">Músculos trabajados:</label>
+        <input class="form-control" id="musculosTrabajados" [(ngModel)]="ejercicio.musculosTrabajados" placeholder="Músculos trabajados">
+        <label for="material">Material:</label>
+        <input class="form-control" id="material" [(ngModel)]="ejercicio.material" placeholder="Material">
+        <label for="dificultad">Dificultad:</label>
+        <input class="form-control" id="dificultad" [(ngModel)]="ejercicio.dificultad" placeholder="Dificultad">
+        <label for="dificultad">Multimedia:</label>
+        <input class="form-control" id="multimedia" [(ngModel)]="ejercicio.multimedia" placeholder="Multimedia">
+  
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="guardarEjercicio()">Guardar</button>
+  </div>

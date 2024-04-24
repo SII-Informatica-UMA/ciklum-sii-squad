@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ejercicio</h4> <!--Poner nombre del ejercicio que vamos a rellenar-->
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cierre usuario')"></button>
+  </div>
+<div class="modal-body">
+    <div class="form-group">
+        <label for="Series">Series:</label>
+        <input class="form-control" id="series" [(ngModel)]="ejercicioRutina.series" placeholder="0">
+        
+        <label for="Repeticiones">Repeticiones:</label>
+        <input class="form-control" id="Repeticiones" [(ngModel)]="ejercicioRutina.repeticiones" placeholder="0">
+        
+        <label for="Duracion">Duracion(en min):</label>
+        <input class="form-control" id="duracion" [(ngModel)]="ejercicioRutina.duracionMinutos" placeholder="0">
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="guardarEjercicioRutina()">Guardar</button>
+</div>
