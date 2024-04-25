@@ -67,7 +67,6 @@ public class EjercicioEnRutina {
     @Override
     public String toString() {
         return "EjercicioEnRutina{" +
-                "id=" + id +
                 ", series=" + series +
                 ", repeticiones=" + repeticiones +
                 ", duracionMinutos=" + duracionMinutos +
@@ -78,19 +77,12 @@ public class EjercicioEnRutina {
     // equals and hashCode
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EjercicioEnRutina that = (EjercicioEnRutina) o;
-        return series == that.series &&
-                repeticiones == that.repeticiones &&
-                duracionMinutos == that.duracionMinutos &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(ejercicio, that.ejercicio);
+        return o instanceof EjercicioEnRutina e && e.getId().equals(this.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, series, repeticiones, duracionMinutos, ejercicio);
+        return id.hashCode();
     }
 }
 

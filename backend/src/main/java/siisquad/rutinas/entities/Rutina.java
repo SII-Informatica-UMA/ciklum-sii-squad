@@ -89,19 +89,12 @@ public class Rutina {
     // equals and hashCode
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Rutina rutina = (Rutina) o;
-        return Objects.equals(id, rutina.id) &&
-                Objects.equals(nombre, rutina.nombre) &&
-                Objects.equals(descripcion, rutina.descripcion) &&
-                Objects.equals(observaciones, rutina.observaciones) &&
-                Objects.equals(ejercicios, rutina.ejercicios);
+        return o instanceof Rutina r && r.getId().equals(this.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, observaciones, ejercicios);
+        return id.hashCode();
     }
 }
 

@@ -31,9 +31,6 @@ public class Ejercicio {
 
     private Integer entrenador; 
 
-
-//
-
     // Getters
     public Long getId() {
         return id;
@@ -137,23 +134,12 @@ public class Ejercicio {
     // equals and hashCode
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ejercicio ejercicio = (Ejercicio) o;
-        return Objects.equals(id, ejercicio.id) &&
-                Objects.equals(nombre, ejercicio.nombre) &&
-                Objects.equals(descripcion, ejercicio.descripcion) &&
-                Objects.equals(observaciones, ejercicio.observaciones) &&
-                Objects.equals(tipo, ejercicio.tipo) &&
-                Objects.equals(musculosTrabajados, ejercicio.musculosTrabajados) &&
-                Objects.equals(material, ejercicio.material) &&
-                Objects.equals(dificultad, ejercicio.dificultad) &&
-                Objects.equals(multimedia, ejercicio.multimedia);
+        return o instanceof Ejercicio e && e.getId().equals(this.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, observaciones, tipo, musculosTrabajados, material, dificultad, multimedia);
+        return id.hashCode();
     }
 }
 
