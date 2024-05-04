@@ -1,5 +1,6 @@
 package siisquad.rutinas.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import siisquad.rutinas.entities.EjercicioEnRutina;
 
@@ -17,5 +18,7 @@ public class RutinaDTO {
     private String nombre;
     private String descripcion;
     private String observaciones;
-    private List<EjercicioEnRutina> ejercicios;
+    private List<EjercicioEnRutinaDTO> ejercicios;
+    @JsonProperty("_links")
+    private Links links;
 }

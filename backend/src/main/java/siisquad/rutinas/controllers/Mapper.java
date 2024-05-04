@@ -1,23 +1,53 @@
 package siisquad.rutinas.controllers;
 
+import org.springframework.web.util.UriComponents;
 import siisquad.rutinas.dtos.*;
 import siisquad.rutinas.entities.*;
+
+import java.net.URI;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Mapper {
     /**
      * Convierte una Rutina a un DTO RutinaDTO
      * @param rutina
+     * @param rutinaUriBuilder
+     * @param ejercicioUriBuilder
      * @return RutinaDTO
      */
-    public static RutinaDTO toRutinaDTO(Rutina rutina) {
+    public static RutinaDTO toRutinaDTO(Rutina rutina, Function<Long, URI> rutinaUriBuilder,
+                                        Function<Long, URI> ejercicioUriBuilder) {
         return RutinaDTO.builder()
                 .id(rutina.getId())
                 .nombre(rutina.getNombre())
                 .descripcion(rutina.getDescripcion())
                 .observaciones(rutina.getObservaciones())
-                .ejercicios(rutina.getEjercicios())
+                .ejercicios(rutina.getEjercicios().stream()
+                        .map(i->toEjercicioEnRutinaDTO(i, ejercicioUriBuilder))
+                        .collect(Collectors.toList()))
+                .links(Links.builder()
+                        .self(rutinaUriBuilder.apply(rutina.getId()))
+                        .build())
                 .build();
     }
+
+    /**
+     * Convierte EjercicicioEnRutina a EjercicioEnRutinaDTO, conviertiendo su Ejercicio a EjercicioDTO
+     * @param ejercicioEnRutina
+     * @param ejercicioUriBuilder
+     * @return
+     */
+    public static EjercicioEnRutinaDTO toEjercicioEnRutinaDTO (EjercicioEnRutina ejercicioEnRutina, Function<Long, URI> ejercicioUriBuilder){
+        return EjercicioEnRutinaDTO.builder()
+                .series(ejercicioEnRutina.getSeries())
+                .repeticiones(ejercicioEnRutina.getRepeticiones())
+                .duracionMinutos(ejercicioEnRutina.getDuracionMinutos())
+                .ejercicio(toEjercicioDTO(ejercicioEnRutina.getEjercicio(), ejercicioUriBuilder))
+                .build();
+    }
+
+
     /**
      * Convierte una RutinaNuevaDTO a una Rutina
      * @param rutinaNuevaDTO
@@ -35,9 +65,10 @@ public class Mapper {
     /**
      * Convierte un Ejercicio a un EjercicioDTO
      * @param ejercicio
+     * @param uriBuilder
      * @return EjercicioDTO
      */
-    public static EjercicioDTO toEjercioDTO(Ejercicio ejercicio) {
+    public static EjercicioDTO toEjercicioDTO(Ejercicio ejercicio, Function<Long, URI> uriBuilder) {
         return EjercicioDTO.builder()
                 .id(ejercicio.getId())
                 .nombre(ejercicio.getNombre())
@@ -48,6 +79,9 @@ public class Mapper {
                 .material(ejercicio.getMaterial())
                 .dificultad(ejercicio.getDificultad())
                 .multimedia(ejercicio.getMultimedia())
+                .links(Links.builder()
+                            .self(uriBuilder.apply(ejercicio.getId()))
+                            .build())  //Basicamente crea un nuevo Links añadiendole la URI obtenido tras aplicar la funcion uriBuilder
                 .build();
     }
     /**
@@ -67,4 +101,6 @@ public class Mapper {
                 .multimedia(ejercicioNuevoDTO.getMultimedia())
                 .build();
     }
+
+
 }

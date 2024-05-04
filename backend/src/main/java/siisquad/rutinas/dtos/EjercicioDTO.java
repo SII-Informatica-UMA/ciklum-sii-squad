@@ -1,5 +1,6 @@
 package siisquad.rutinas.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public class EjercicioDTO {
     private String material;
     private String dificultad;
     private List<String> multimedia;
+    @JsonProperty("_links")
+    private Links links;
 }

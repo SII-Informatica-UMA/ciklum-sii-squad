@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import siisquad.rutinas.excepciones.RutinaExistenteException;
-import siisquad.rutinas.excepciones.RutinaNoEncontrada;
+import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.repositories.RepositorioRutina;
 import siisquad.rutinas.entities.Rutina;
 
@@ -32,7 +31,7 @@ public class ServicioRutina {
      */
     public Rutina getRutina(Long id) {
         Optional<Rutina> rutina = repositorioRutina.findById(id);
-        return rutina.orElseThrow(() -> new RutinaNoEncontrada());
+        return rutina.orElseThrow(() -> new EntidadNoEncontradaException());
     }
 
     /**
@@ -43,7 +42,7 @@ public class ServicioRutina {
      */
     public Rutina createRutina(Rutina rutina) {
         if(repositorioRutina.findById(rutina.getId()).isPresent()) {
-            throw new RutinaExistenteException();
+            throw new EntidadNoEncontradaException();
         }
         return repositorioRutina.save(rutina);
     }
@@ -56,7 +55,7 @@ public class ServicioRutina {
      */
     public Rutina updateRutina(Rutina rutina) {
         if (repositorioRutina.findById(rutina.getId()).isEmpty()) {
-            throw new RutinaNoEncontrada();
+            throw new EntidadNoEncontradaException();
         }
         return repositorioRutina.save(rutina);
     }
@@ -68,7 +67,7 @@ public class ServicioRutina {
      */
     public void deleteRutina(Long id) {
         if(!repositorioRutina.existsById(id)) {
-            throw new RutinaNoEncontrada();
+            throw new EntidadNoEncontradaException();
         }
         repositorioRutina.deleteById(id);
     }
@@ -80,6 +79,6 @@ public class ServicioRutina {
      * @return Lista de Rutinas asociadas al Entrenador
      */
     public List<Rutina> getRutinasEntrenador(Long entrenadorId) {
-        return repositorioRutina.findByEntrenador(entrenadorId);
+        return repositorioRutina.findByEntrenador(Long.valueOf(entrenadorId)).get();
     }
 }

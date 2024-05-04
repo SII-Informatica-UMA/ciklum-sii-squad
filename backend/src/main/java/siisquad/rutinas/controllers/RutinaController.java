@@ -1,13 +1,13 @@
 package siisquad.rutinas.controllers;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import siisquad.rutinas.dtos.RutinaDTO;
 import siisquad.rutinas.entities.Rutina;
+import siisquad.rutinas.excepciones.EntidadExistenteException;
+import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.excepciones.RutinaNoEncontrada;
 import siisquad.rutinas.servicios.ServicioRutina;
 
@@ -30,11 +30,19 @@ public class RutinaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RutinaDTO> getRutina(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(Mapper.toRutinaDTO(servicio.getRutina(id)));
-        }catch (RutinaNoEncontrada e) {
-            return ResponseEntity.notFound().build();
-        }
+
+        return ResponseEntity.ok(Mapper.toRutinaDTO(servicio.getRutina(id)));
+
     }
+
+
+
+    @ExceptionHandler(EntidadNoEncontradaException.class)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    public void noEncontrado() {}
+
+    @ExceptionHandler(EntidadExistenteException.class)
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    public void existente() {}
 
 }
