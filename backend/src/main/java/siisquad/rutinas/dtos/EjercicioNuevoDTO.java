@@ -20,5 +20,4 @@ public class EjercicioNuevoDTO {
     private String material;
     private String dificultad;
     private List<String> multimedia;
-    private Integer entrenador;
 }

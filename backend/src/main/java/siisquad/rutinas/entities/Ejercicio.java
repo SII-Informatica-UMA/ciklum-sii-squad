@@ -7,10 +7,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import lombok.*;
+
 import java.util.List;
 import java.util.Objects;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Ejercicio {
     @Id
@@ -31,89 +37,6 @@ public class Ejercicio {
 
     private Integer entrenador; 
 
-    // Getters
-    public Long getId() {
-        return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public String getMusculosTrabajados() {
-        return musculosTrabajados;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public String getDificultad() {
-        return dificultad;
-    }
-
-    public List<String> getMultimedia() {
-        return multimedia;
-    }
-
-    public Integer getEntrenador() {
-        return entrenador;
-    }
-
-    
-
-    // Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setMusculosTrabajados(String musculosTrabajados) {
-        this.musculosTrabajados = musculosTrabajados;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
-    public void setDificultad(String dificultad) {
-        this.dificultad = dificultad;
-    }
-
-    public void setMultimedia(List<String> multimedia) {
-        this.multimedia = multimedia;
-    }
-
-    public void setEntrenador(Integer entrenador) {
-        this.entrenador = entrenador;
-    }
 
     // toString
     @Override

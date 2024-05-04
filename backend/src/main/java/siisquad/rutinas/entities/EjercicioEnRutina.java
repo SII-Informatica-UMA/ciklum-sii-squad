@@ -5,10 +5,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.*;
 
 import java.util.Objects;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class EjercicioEnRutina {
     @Id
@@ -20,48 +25,6 @@ public class EjercicioEnRutina {
 
     @ManyToOne
     private Ejercicio ejercicio;
-
-    // Getters
-    public Long getId() {
-        return id;
-    }
-
-    public int getSeries() {
-        return series;
-    }
-
-    public int getRepeticiones() {
-        return repeticiones;
-    }
-
-    public int getDuracionMinutos() {
-        return duracionMinutos;
-    }
-
-    public Ejercicio getEjercicio() {
-        return ejercicio;
-    }
-
-    // Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setSeries(int series) {
-        this.series = series;
-    }
-
-    public void setRepeticiones(int repeticiones) {
-        this.repeticiones = repeticiones;
-    }
-
-    public void setDuracionMinutos(int duracionMinutos) {
-        this.duracionMinutos = duracionMinutos;
-    }
-
-    public void setEjercicio(Ejercicio ejercicio) {
-        this.ejercicio = ejercicio;
-    }
 
     // toString
     @Override

@@ -6,10 +6,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
+import lombok.*;
+
 import java.util.List;
 import java.util.Objects;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Rutina {
     @Id
@@ -24,55 +30,6 @@ public class Rutina {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EjercicioEnRutina> ejercicios;
 
-    // Getters
-    public Long getId() {
-        return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public Integer getEntrenador() {
-        return entrenador;
-    }
-
-    public void setEntrenador(Integer entrenador) {
-        this.entrenador = entrenador;
-    }
-
-    public List<EjercicioEnRutina> getEjercicios() {
-        return ejercicios;
-    }
-
-    // Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public void setEjercicios(List<EjercicioEnRutina> ejercicios) {
-        this.ejercicios = ejercicios;
-    }
 
     // toString
     @Override

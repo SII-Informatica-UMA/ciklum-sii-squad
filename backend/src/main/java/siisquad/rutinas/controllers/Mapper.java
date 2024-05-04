@@ -15,7 +15,6 @@ public class Mapper {
                 .nombre(rutina.getNombre())
                 .descripcion(rutina.getDescripcion())
                 .observaciones(rutina.getObservaciones())
-                .entrenador(rutina.getEntrenador())
                 .ejercicios(rutina.getEjercicios())
                 .build();
     }
@@ -29,7 +28,6 @@ public class Mapper {
                 .nombre(rutinaNuevaDTO.getNombre())
                 .descripcion(rutinaNuevaDTO.getDescripcion())
                 .observaciones(rutinaNuevaDTO.getObservaciones())
-                .entrenador(rutinaNuevaDTO.getEntrenador())
                 .ejercicios(rutinaNuevaDTO.getEjercicios())
                 .build();
     }
@@ -50,7 +48,6 @@ public class Mapper {
                 .material(ejercicio.getMaterial())
                 .dificultad(ejercicio.getDificultad())
                 .multimedia(ejercicio.getMultimedia())
-                .entrenador(ejercicio.getEntrenador())
                 .build();
     }
     /**
@@ -68,7 +65,6 @@ public class Mapper {
                 .material(ejercicioNuevoDTO.getMaterial())
                 .dificultad(ejercicioNuevoDTO.getDificultad())
                 .multimedia(ejercicioNuevoDTO.getMultimedia())
-                .entrenador(ejercicioNuevoDTO.getEntrenador())
                 .build();
     }
 }
