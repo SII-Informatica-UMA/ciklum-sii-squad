@@ -8,7 +8,6 @@ import siisquad.rutinas.dtos.RutinaDTO;
 import siisquad.rutinas.entities.Rutina;
 import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
-import siisquad.rutinas.excepciones.RutinaNoEncontrada;
 import siisquad.rutinas.servicios.ServicioRutina;
 
 import java.util.List;
@@ -21,6 +20,7 @@ public class RutinaController {
     public RutinaController(ServicioRutina servicio) {
         this.servicio = servicio;
     }
+
     @GetMapping
     public ResponseEntity<List<RutinaDTO>> getRutina() {
         List<RutinaDTO> resultado = servicio.getRutinasEntrenador(Long.valueOf(1)).stream()

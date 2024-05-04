@@ -13,7 +13,10 @@ import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.servicios.ServicioEjercicio;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -38,30 +41,38 @@ public class EjercicioController {
     }
 
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public EjercicioDTO obtenerEjercicio(@PathVariable Long id, UriComponentsBuilder uriBuilder) {
         var ejercicio = servicio.obtenerEjercicio(id);
         return Mapper.toEjercicioDTO(ejercicio, ejercicioUriBuilder(uriBuilder.build()));
     }
 
-    @PostMapping
-    public ResponseEntity<?> aniadirEjercicio(@RequestBody EjercicioNuevoDTO ejercicioNuevoDTO, UriComponentsBuilder uriBuilder) {
-        Long id = servicio.aniadirEjercicio(Mapper.toEjercicio(ejercicioNuevoDTO));
-        return ResponseEntity.created(ejercicioUriBuilder(uriBuilder.build()).apply(id))
-                .build();
-    }
-
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public void actualizarEjercicio(@PathVariable Long id, @RequestBody EjercicioNuevoDTO ejercicioNuevoDTO) {
         Ejercicio ejercicio = Mapper.toEjercicio(ejercicioNuevoDTO);
         ejercicio.setId(id);
         servicio.actualizarEjercicio(ejercicio);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void eliminarEjercicio(@PathVariable Long id) {
         servicio.eliminarEjercicio(id);
     }
+
+
+    @GetMapping
+    public List<EjercicioDTO> obtenerEjercicios(@RequestParam("entrenador") Long id, UriComponentsBuilder uriBuilder){
+        var ejercicios = servicio.obtenerEjerciciosPorEntrenador(id);
+        return ejercicios.stream().map(e -> Mapper.toEjercicioDTO(e, ejercicioUriBuilder(uriBuilder.build()))).collect(Collectors.toList());
+    }
+
+    @PostMapping
+    public ResponseEntity<?> aniadirEjercicio(@RequestParam("entrenador") Long id, @RequestBody EjercicioNuevoDTO ejercicioNuevoDTO, UriComponentsBuilder uriBuilder){
+        Long idEjercicio = servicio.aniadirEjercicio(id, Mapper.toEjercicio(ejercicioNuevoDTO));
+        return ResponseEntity.created(ejercicioUriBuilder(uriBuilder.build()).apply(idEjercicio))
+                .build();
+    }
+
 
     @ExceptionHandler(EntidadNoEncontradaException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND)

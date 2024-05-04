@@ -3,6 +3,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import siisquad.rutinas.entities.Ejercicio;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ServicioEjercicio {
@@ -11,7 +13,7 @@ public class ServicioEjercicio {
         return null;
     }
 
-    public Long aniadirEjercicio(Ejercicio ejercicio){
+    public Long aniadirEjercicio(Long idEntrenador, Ejercicio ejercicio){
         return null;
     }
 
@@ -23,5 +25,10 @@ public class ServicioEjercicio {
     public void actualizarEjercicio(Ejercicio ejercicio) {
 
     }
+
+    public List<Ejercicio> obtenerEjerciciosPorEntrenador(Long id){
+        return null;
+    }
+
 
 }
