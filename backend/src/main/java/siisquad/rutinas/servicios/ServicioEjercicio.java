@@ -1,27 +1,51 @@
 package siisquad.rutinas.servicios;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import siisquad.rutinas.entities.Ejercicio;
+import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
+import siisquad.rutinas.repositories.RepositorioEjercicio;
 
 @Service
 @Transactional
 public class ServicioEjercicio {
+    private final RepositorioEjercicio repositorioEjercicio;
 
-    public Ejercicio obtenerEjercicio(Long id){
-        return null;
+    @Autowired
+    public ServicioEjercicio(RepositorioEjercicio repositorioEjercicio) {
+        this.repositorioEjercicio = repositorioEjercicio;
+    }
+    public Ejercicio getEjercicio(Long id){
+        Optional<Ejercicio> ejercicio = repositorioEjercicio.findById(id);
+        return ejercicio.orElseThrow(() -> new EntidadNoEncontradaException());
     }
 
-    public Long aniadirEjercicio(Ejercicio ejercicio){
-        return null;
+    public Ejercicio createEjercicio(Ejercicio ejercicio){
+        if(repositorioEjercicio.findById(ejercicio.getId()).isPresent()) {
+            throw new EntidadNoEncontradaException();
+        }
+        return repositorioEjercicio.save(ejercicio);
     }
 
 
-    public void eliminarEjercicio(Long id){
-
+    public Ejercicio updateEjercicio(Ejercicio ejercicio) {
+        if (repositorioEjercicio.findById(ejercicio.getId()).isEmpty()) {
+            throw new EntidadNoEncontradaException();
+        }
+        return repositorioEjercicio.save(ejercicio);
     }
 
-    public void actualizarEjercicio(Ejercicio ejercicio) {
-
+    public void deleteEjercicio(Long id) {
+        if (repositorioEjercicio.existsById(id)) {
+            throw new EntidadNoEncontradaException();
+        }
+        repositorioEjercicio.deleteById(id);
     }
 
+    public List<Ejercicio> getEjerciciosEntrenador(Long entrenadorId) {
+        return repositorioEjercicio.findByEntrenador(Long.valueOf(entrenadorId)).get();
+    }
 }
