@@ -40,11 +40,8 @@ public class ServicioRutina {
      * @Throws RutinaExistenteException si la rutina ya existe previamente
      * @return Rutina creada
      */
-    public Rutina createRutina(Rutina rutina) {
-        if(repositorioRutina.findById(rutina.getId()).isPresent()) {
-            throw new EntidadNoEncontradaException();
-        }
-        return repositorioRutina.save(rutina);
+    public Rutina addRutina(Rutina rutina) {
+        return repositorioRutina.save(rutina);;
     }
 
     /**
@@ -78,7 +75,11 @@ public class ServicioRutina {
      * @throws
      * @return Lista de Rutinas asociadas al Entrenador
      */
-    public List<Rutina> getRutinasEntrenador(Long entrenadorId) {
+    public List<Rutina> getRutinasPorEntrenador(Long entrenadorId) {
         return repositorioRutina.findByEntrenador(Long.valueOf(entrenadorId)).get();
     }
+
+
+
+
 }
