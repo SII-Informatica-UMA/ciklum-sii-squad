@@ -10,8 +10,6 @@ import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.repositories.RepositorioEjercicio;
 
-import java.util.List;
-
 @Service
 @Transactional
 public class ServicioEjercicio {
