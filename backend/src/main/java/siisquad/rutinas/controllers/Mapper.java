@@ -25,7 +25,7 @@ public class Mapper {
                 .observaciones(rutina.getObservaciones())
                 .ejercicios(rutina.getEjercicios().stream()
                         .map(i->toEjercicioEnRutinaDTO(i, ejercicioUriBuilder))
-                        .collect(Collectors.toList()))
+                        .toList())
                 .links(Links.builder()
                         .self(rutinaUriBuilder.apply(rutina.getId()))
                         .build())
@@ -47,6 +47,20 @@ public class Mapper {
                 .build();
     }
 
+    /**
+     * Convierte EjercicicioEnRutina a EjercicioEnRutinaDTO, conviertiendo su Ejercicio a EjercicioDTO
+     * @param ejercicioEnRutina
+     * @param ejercicioUriBuilder
+     * @return
+     */
+    public static EjercicioEnRutina toEjercicioEnRutina (EjercicioEnRutinaDTO ejercicioEnRutina){
+        return EjercicioEnRutina.builder()
+                .series(ejercicioEnRutina.getSeries())
+                .repeticiones(ejercicioEnRutina.getRepeticiones())
+                .duracionMinutos(ejercicioEnRutina.getDuracionMinutos())
+                .ejercicio(toEjercicio(ejercicioEnRutina.getEjercicio()))
+                .build();
+    }
 
     /**
      * Convierte una RutinaNuevaDTO a una Rutina
@@ -58,7 +72,7 @@ public class Mapper {
                 .nombre(rutinaNuevaDTO.getNombre())
                 .descripcion(rutinaNuevaDTO.getDescripcion())
                 .observaciones(rutinaNuevaDTO.getObservaciones())
-                .ejercicios(rutinaNuevaDTO.getEjercicios())
+                .ejercicios(rutinaNuevaDTO.getEjercicios().stream().map(Mapper::toEjercicioEnRutina).toList())
                 .build();
     }
 
@@ -101,6 +115,17 @@ public class Mapper {
                 .multimedia(ejercicioNuevoDTO.getMultimedia())
                 .build();
     }
-
+    public static Ejercicio toEjercicio(EjercicioDTO ejercicioNuevoDTO) {
+        return Ejercicio.builder()
+                .nombre(ejercicioNuevoDTO.getNombre())
+                .descripcion(ejercicioNuevoDTO.getDescripcion())
+                .observaciones(ejercicioNuevoDTO.getObservaciones())
+                .tipo(ejercicioNuevoDTO.getTipo())
+                .musculosTrabajados(ejercicioNuevoDTO.getMusculosTrabajados())
+                .material(ejercicioNuevoDTO.getMaterial())
+                .dificultad(ejercicioNuevoDTO.getDificultad())
+                .multimedia(ejercicioNuevoDTO.getMultimedia())
+                .build();
+    }
 
 }
