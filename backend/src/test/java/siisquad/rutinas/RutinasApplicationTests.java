@@ -3,7 +3,6 @@ package siisquad.rutinas;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.*;
@@ -39,7 +38,7 @@ class RutinasApplicationTests {
 	private int port;
 
 	@Autowired
-	private RutinasApplication rutinaRepo;	
+	private RepositorioRutina rutinaRepo;	
 
 	@Autowired
 	private RepositorioEjercicio ejercicioRepo;
