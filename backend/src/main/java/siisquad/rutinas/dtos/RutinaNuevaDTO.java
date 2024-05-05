@@ -16,5 +16,5 @@ public class RutinaNuevaDTO {
     private String nombre;
     private String descripcion;
     private String observaciones;
-    private List<EjercicioEnRutina> ejercicios;
+    private List<EjercicioEnRutinaDTO> ejercicios;
 }
