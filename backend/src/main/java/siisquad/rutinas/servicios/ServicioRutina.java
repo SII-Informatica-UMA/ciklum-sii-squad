@@ -53,7 +53,7 @@ public class ServicioRutina {
      * @return Rutina creada
      */
     public Rutina addRutina(Rutina rutina) {
-        return repositorioRutina.save(rutina);;
+        return repositorioRutina.save(rutina);
     }
 
     /**
