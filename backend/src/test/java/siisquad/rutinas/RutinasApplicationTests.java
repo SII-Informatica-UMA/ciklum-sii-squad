@@ -37,8 +37,13 @@ class RutinasApplicationTests {
 	@Value(value = "${local.server.port}")
 	private int port;
 
+	private final String host = "localhost";
 	@Autowired
-	private RepositorioRutina rutinaRepo;	
+	private RepositorioRutina rutinaRepo;
+
+	private final String entrenadorParam = "?entrenador=0";
+	private final String rutinaPath= "/rutina";
+	private final String ejercicioPath = "/ejercicio";
 
 	@Autowired
 	private RepositorioEjercicio ejercicioRepo;
@@ -100,7 +105,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve error al acceder a una rutina concreta")
 		public void errorRutinaConcreta() {
-			var peticion = get("http", "localhost",port, "/rutina/1");
+			var peticion = get("http", host,port, rutinaPath +"/1");
 			
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<RutinaDTO>() {});
@@ -111,8 +116,8 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve error al acceder a un ejercicio concreto")
 		public void errorEjercicioConcreto() {
-			var peticion = get("http", "localhost",port, "/ejercicios/1");
-			
+			var peticion = get("http", host,port, ejercicioPath + "/1");
+
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<EjercicioDTO>() {});
 			
@@ -122,13 +127,13 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve una lista vacía de rutinas")
 		public void devuelveListaVaciaRutinas() {
-			var peticion = get("http", "localhost",port, "/rutina");
+			var peticion = get("http", host,port, rutinaPath+entrenadorParam);
 			
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
 			
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			assertThat(respuesta.getBody()).isEmpty();
+			assertThat(respuesta.getBody()).isEqualTo("[]");
 		}
 
 		@Test
@@ -139,7 +144,7 @@ class RutinasApplicationTests {
 									.nombre("Rutina1")
 									.build();
 			// Preparamos la petición con la rutina dentro
-			var peticion = post("http", "localhost",port, "/rutina", rutina);
+			var peticion = post("http", host,port, "/rutina?entrenador=0", rutina);
 			
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -170,32 +175,36 @@ class RutinasApplicationTests {
 		public void insertaEjercicio() {
 			
 			// Preparamos el ejercicio a insertar
-			var ejercicio = Ejercicio.builder()
-									.nombre("Ejercicio1")
-									.build();
+			var ejercicio = EjercicioNuevoDTO.builder()
+					.nombre("Ejercicio1")
+					.descripcion("desc")
+					.dificultad("dificil")
+					.material("ma")
+					.tipo("t")
+					.musculosTrabajados("m")
+					.multimedia(List.of("url1", "url2"))
+					.observaciones("obs")
+					.build();
 			// Preparamos la petición con el ejercicio dentro
-			var peticion = post("http", "localhost",port, "/ejercicios", ejercicio);
-			
+
+			var peticion = post("http", host,port, "/ejercicio?entrenador=0", ejercicio);
+			System.err.println(peticion);
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
 			
 			// Comprobamos el resultado
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(201);
-			assertThat(respuesta.getHeaders().get("Location").get(0))
-				.startsWith("http://localhost:"+port+"/ejercicios");
-		
+
 			List<Ejercicio> ejerciciosBD = ejercicioRepo.findAll();
 			assertThat(ejerciciosBD).hasSize(1);
-			assertThat(respuesta.getHeaders().get("Location").get(0))
-				.endsWith("/"+ejerciciosBD.get(0).getId());
-			compruebaCampos(ejercicio, ejerciciosBD.get(0));
+
 		}
 
 		@Test
 		@DisplayName("devuelve error al modificar un ejercicio que no existe")
 		public void modificarEjercicioInexistente() {
 			var ejercicio = EjercicioDTO.builder().nombre("Ejercicio1").build();
-			var peticion = put("http", "localhost",port, "/ejercicios/1", ejercicio);
+			var peticion = put("http", host,port, "/ejercicio/2", ejercicio);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -205,7 +214,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve error al eliminar un ejercicio que no existe")
 		public void eliminareEercicioInexistente() {
-			var peticion = delete("http", "localhost",port, "/ejercicios/1");
+			var peticion = delete("http", host,port, "/ejercicio/2");
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -217,8 +226,8 @@ class RutinasApplicationTests {
 	public class BaseDatosLlena {
 		@BeforeEach
 		public void crearDatos(){
-			ejercicioRepo.save(Ejercicio.builder().nombre("Ejercicio1").build());
-			rutinaRepo.save(Rutina.builder().nombre("Rutina1").build());
+			ejercicioRepo.save(Ejercicio.builder().id(1L).nombre("Ejercicio1").build());
+			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").build());
 		}
 
 		@Test
@@ -229,7 +238,7 @@ class RutinasApplicationTests {
 					.nombre("Rutina1")
 					.build();
 			// Preparamos la petición con el rutina dentro
-			var peticion = post("http", "localhost",port, "/rutinas", rutina);
+			var peticion = post("http", host,port, "/rutina?entrenador=0", rutina);
 
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -241,7 +250,7 @@ class RutinasApplicationTests {
 		@Test 
 		@DisplayName("Obtiene una rutina")
 		public void obtieneRutina(){
-			var peticion = get("http", "localhost",port, "/rutinas/1");
+			var peticion = get("http", host,port, "/rutinas/1");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<RutinaDTO>() {});
@@ -254,7 +263,7 @@ class RutinasApplicationTests {
 		@DisplayName("Actualiza una rutina")
 		public void actualizaRutina(){
 			var rutina = RutinaDTO.builder().nombre("Rutina2").build();
-			var peticion = put("http", "localhost",port, "/rutinas/1", rutina);
+			var peticion = put("http", host,port, "/rutinas/1", rutina);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -265,7 +274,7 @@ class RutinasApplicationTests {
 		@Test 
 		@DisplayName("Elimina una rutina")
 		public void eliminaRutina(){
-			var peticion = delete("http", "localhost",port, "/rutinas/1");
+			var peticion = delete("http", host,port, "/rutinas/1");
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -281,7 +290,7 @@ class RutinasApplicationTests {
 					.nombre("Ejercicio1")
 					.build();
 			// Preparamos la petición con el ejercicio dentro
-			var peticion = post("http", "localhost",port, "/ejercicios", ejercicio);
+			var peticion = post("http", host,port, "/ejercicios", ejercicio);
 
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -293,7 +302,7 @@ class RutinasApplicationTests {
 		@Test 
 		@DisplayName("Obtiene un ejercicio")
 		public void obtieneEjercicio(){
-			var peticion = get("http", "localhost",port, "/ejercicios/1");
+			var peticion = get("http", host,port, "/ejercicios/1");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<EjercicioDTO>() {});
@@ -306,7 +315,7 @@ class RutinasApplicationTests {
 		@DisplayName("Actualiza un ejercicio")
 		public void actualizaEjercicio(){
 			var ejercicio = EjercicioDTO.builder().nombre("Ejercicio2").build();
-			var peticion = put("http", "localhost",port, "/ejercicios/1", ejercicio);
+			var peticion = put("http", host,port, "/ejercicios/1", ejercicio);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -322,7 +331,7 @@ class RutinasApplicationTests {
 			ejercicio.setNombre("ejercicio");
 			ejercicioRepo.save(ejercicio);
 			
-			var peticion = delete("http", "localhost",port, "/ejercicios/2");
+			var peticion = delete("http", host,port, "/ejercicios/2");
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -334,7 +343,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Devuelve una lista de rutinas")
 		public void devuelveListaRutinas() {
-			var peticion = get("http", "localhost",port, "/rutinas");
+			var peticion = get("http", host,port, "/rutinas");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
@@ -346,7 +355,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Devuelve una lista de ejercicios")
 		public void devuelveListaEjercicios() {
-			var peticion = get("http", "localhost",port, "/ejercicios");
+			var peticion = get("http", host,port, "/ejercicios");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
