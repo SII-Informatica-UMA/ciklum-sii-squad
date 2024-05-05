@@ -43,7 +43,7 @@ public class EjercicioController {
 
     @GetMapping("/{id}")
     public EjercicioDTO obtenerEjercicio(@PathVariable Long id, UriComponentsBuilder uriBuilder) {
-        var ejercicio = servicio.obtenerEjercicio(id);
+        var ejercicio = servicio.getEjercicio(id);
         return Mapper.toEjercicioDTO(ejercicio, ejercicioUriBuilder(uriBuilder.build()));
     }
 
@@ -51,12 +51,12 @@ public class EjercicioController {
     public void actualizarEjercicio(@PathVariable Long id, @RequestBody EjercicioNuevoDTO ejercicioNuevoDTO) {
         Ejercicio ejercicio = Mapper.toEjercicio(ejercicioNuevoDTO);
         ejercicio.setId(id);
-        servicio.actualizarEjercicio(ejercicio);
+        servicio.updateEjercicio(ejercicio);
     }
 
     @DeleteMapping("/{id}")
     public void eliminarEjercicio(@PathVariable Long id) {
-        servicio.eliminarEjercicio(id);
+        servicio.deleteEjercicio(id);
     }
 
 
