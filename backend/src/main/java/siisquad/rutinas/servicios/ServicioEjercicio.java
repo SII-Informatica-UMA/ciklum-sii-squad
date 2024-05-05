@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import siisquad.rutinas.entities.Ejercicio;
+import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.repositories.RepositorioEjercicio;
 
@@ -25,10 +26,15 @@ public class ServicioEjercicio {
         return ejercicio.orElseThrow(() -> new EntidadNoEncontradaException());
     }
 
-    public Long aniadirEjercicio(Long idEntrenador, Ejercicio ejercicio){
-        return null;
+    public Long addEjercicio(Long idEntrenador, Ejercicio ejercicio){
+        if (!repositorioEjercicio.existsByNombre(ejercicio.getNombre())) {
+			ejercicio.setId(null);
+			repositorioEjercicio.save(ejercicio);
+			return ejercicio.getId();
+		} else {
+			throw new EntidadExistenteException();
+		}
     }
-
 
     public Ejercicio updateEjercicio(Ejercicio ejercicio) {
         if (repositorioEjercicio.findById(ejercicio.getId()).isEmpty()) {
@@ -44,8 +50,8 @@ public class ServicioEjercicio {
         repositorioEjercicio.deleteById(id);
     }
 
-    public List<Ejercicio> obtenerEjerciciosPorEntrenador(Long id){
-        return null;
+    public List<Ejercicio> getEjerciciosPorEntrenador(Long id){
+        return repositorioEjercicio.findByEntrenador(Long.valueOf(id)).get();
     }
 
 

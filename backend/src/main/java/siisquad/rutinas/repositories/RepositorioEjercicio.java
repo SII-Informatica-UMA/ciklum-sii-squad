@@ -8,4 +8,6 @@ import siisquad.rutinas.entities.Ejercicio;
 
 public interface RepositorioEjercicio extends JpaRepository<Ejercicio, Long> {
     Optional<List<Ejercicio>> findByEntrenador(Long entrenador);
+
+    boolean existsByNombre(String nombre);
 }

@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.repositories.RepositorioRutina;
+import siisquad.rutinas.entities.Ejercicio;
 import siisquad.rutinas.entities.Rutina;
 
 @Service
@@ -32,6 +34,16 @@ public class ServicioRutina {
     public Rutina getRutina(Long id) {
         Optional<Rutina> rutina = repositorioRutina.findById(id);
         return rutina.orElseThrow(() -> new EntidadNoEncontradaException());
+    }
+
+    public Long addRutina(Long idEntrenador, Rutina rutina){
+        if (!repositorioRutina.existsByNombre(rutina.getNombre())) {
+			rutina.setId(null);
+			repositorioRutina.save(rutina);
+			return rutina.getId();
+		} else {
+			throw new EntidadExistenteException();
+		}
     }
 
     /**
