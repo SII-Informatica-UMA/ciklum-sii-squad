@@ -1,6 +1,5 @@
 package siisquad.rutinas.servicios;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.repositories.RepositorioRutina;
-import siisquad.rutinas.entities.Ejercicio;
 import siisquad.rutinas.entities.Rutina;
 
 @Service

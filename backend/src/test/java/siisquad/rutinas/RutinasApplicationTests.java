@@ -218,81 +218,142 @@ class RutinasApplicationTests {
 	public class BaseDatosLlena {
 		@BeforeEach
 		public void crearDatos(){
-			
+			ejercicioRepo.save(Ejercicio.builder().nombre("Ejercicio1").build());
+			rutinaRepo.save(Rutina.builder().nombre("Rutina1").build());
 		}
 
 		@Test
 		@DisplayName("Da error cuando inserta una rutina que ya existe")
 		public void insertaRutinaExistente() {
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
+			// Preparamos el rutina a insertar
+			var rutina = RutinaDTO.builder()
+					.nombre("Rutina1")
+					.build();
+			// Preparamos la petición con el rutina dentro
+			var peticion = post("http", "localhost",port, "/rutinas", rutina);
+
+			// Invocamos al servicio REST 
+			var respuesta = restTemplate.exchange(peticion,Void.class);
+
+			// Comprobamos el resultado
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
 		}
 
 		@Test 
 		@DisplayName("Obtiene una rutina")
 		public void obtieneRutina(){
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var peticion = get("http", "localhost",port, "/rutinas/1");
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<RutinaDTO>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody().getNombre()).isEqualTo("Rutina1");
 		}
 
 		@Test 
 		@DisplayName("Actualiza una rutina")
 		public void actualizaRutina(){
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var rutina = RutinaDTO.builder().nombre("Rutina2").build();
+			var peticion = put("http", "localhost",port, "/rutinas/1", rutina);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			//assertThat(rutinaRepo.findById().get().getNombre()).isEqualTo("Rutina2");
 		}
 
 		@Test 
 		@DisplayName("Elimina una rutina")
 		public void eliminaRutina(){
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var peticion = delete("http", "localhost",port, "/rutinas/1");
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			//assertThat(rutinaRepo.count()).isEqualTo(0);
 		}
 
 		@Test
 		@DisplayName("Da error cuando inserta una ejercicio que ya existe")
 		public void insertaEjercicioExistente() {
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
+			// Preparamos el ejercicio a insertar
+			var ejercicio = EjercicioDTO.builder()
+					.nombre("Ejercicio1")
+					.build();
+			// Preparamos la petición con el ejercicio dentro
+			var peticion = post("http", "localhost",port, "/ejercicios", ejercicio);
+
+			// Invocamos al servicio REST 
+			var respuesta = restTemplate.exchange(peticion,Void.class);
+
+			// Comprobamos el resultado
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
 		}
 
 		@Test 
 		@DisplayName("Obtiene un ejercicio")
 		public void obtieneEjercicio(){
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var peticion = get("http", "localhost",port, "/ejercicios/1");
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<EjercicioDTO>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody().getNombre()).isEqualTo("Ejercicio1");
 		}
 
 		@Test 
 		@DisplayName("Actualiza un ejercicio")
 		public void actualizaEjercicio(){
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var ejercicio = EjercicioDTO.builder().nombre("Ejercicio2").build();
+			var peticion = put("http", "localhost",port, "/ejercicios/1", ejercicio);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(ejercicioRepo.findById(1L).get().getNombre()).isEqualTo("Ejercicio2");
 
 		}
 
 		@Test 
 		@DisplayName("Elimina un ejercicio")
 		public void eliminaEjercicio(){
+			var ejercicio = new Ejercicio();
+			ejercicio.setNombre("ejercicio");
+			ejercicioRepo.save(ejercicio);
 			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var peticion = delete("http", "localhost",port, "/ejercicios/2");
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(ejercicioRepo.count()).isEqualTo(1);
 
 		}
 
 		@Test
 		@DisplayName("Devuelve una lista de rutinas")
 		public void devuelveListaRutinas() {
-			
+			var peticion = get("http", "localhost",port, "/rutinas");
 
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<List<RutinaDTO>>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody().size()).isEqualTo(1);
 		}
 	
 		@Test
 		@DisplayName("Devuelve una lista de ejercicios")
 		public void devuelveListaEjercicios() {
-			
+			var peticion = get("http", "localhost",port, "/ejercicios");
 
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody().size()).isEqualTo(1);
 		}
 	}
 }

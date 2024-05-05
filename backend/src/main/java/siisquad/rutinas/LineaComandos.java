@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import siisquad.rutinas.repositories.RepositorioRutina;
-import siisquad.rutinas.entities.Ejercicio;
-import siisquad.rutinas.entities.Rutina;
 import siisquad.rutinas.repositories.RepositorioEjercicio;
 import siisquad.rutinas.repositories.RepositorioEjercicioEnRutina;
 

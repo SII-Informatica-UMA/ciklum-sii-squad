@@ -7,8 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
-import java.util.Objects;
-
 @Getter
 @Setter
 @AllArgsConstructor
