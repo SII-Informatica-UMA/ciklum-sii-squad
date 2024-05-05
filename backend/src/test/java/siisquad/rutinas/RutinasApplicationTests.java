@@ -121,7 +121,7 @@ class RutinasApplicationTests {
 		}
 		
 		@Test
-		@DisplayName("devuelve una lista vacía de rutina")
+		@DisplayName("devuelve una lista vacía de rutinas")
 		public void devuelveListaVaciaRutinas() {
 			var peticion = get("http", "localhost",port, "/rutina");
 			
@@ -171,7 +171,7 @@ class RutinasApplicationTests {
 		public void insertaEjercicio() {
 			
 			// Preparamos el ejercicio a insertar
-			var ejercicio = EjercicioDTO.builder()
+			var ejercicio = Ejercicio.builder()
 									.nombre("Ejercicio1")
 									.build();
 			// Preparamos la petición con el ejercicio dentro
@@ -191,6 +191,27 @@ class RutinasApplicationTests {
 				.endsWith("/"+ejerciciosBD.get(0).getId());
 			compruebaCampos(ejercicio, ejerciciosBD.get(0));
 		}
+
+		@Test
+		@DisplayName("devuelve error al modificar un ejercicio que no existe")
+		public void modificarEjercicioInexistente() {
+			var ejercicio = EjercicioDTO.builder().nombre("Ejercicio1").build();
+			var peticion = put("http", "localhost",port, "/ejercicios/1", ejercicio);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(404);
+		}
+
+		@Test
+		@DisplayName("devuelve error al eliminar un ejercicio que no existe")
+		public void eliminareEercicioInexistente() {
+			var peticion = delete("http", "localhost",port, "/ejercicios/1");
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(404);
+		}
 	}
 	@Nested
 	@DisplayName("cuando la base de datos está llena")
@@ -198,6 +219,13 @@ class RutinasApplicationTests {
 		@BeforeEach
 		public void crearDatos(){
 			
+		}
+
+		@Test
+		@DisplayName("Da error cuando inserta una rutina que ya existe")
+		public void insertaRutinaExistente() {
+			
+			//assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
 		}
 
 		@Test 
@@ -219,6 +247,13 @@ class RutinasApplicationTests {
 		public void eliminaRutina(){
 			
 			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+		}
+
+		@Test
+		@DisplayName("Da error cuando inserta una ejercicio que ya existe")
+		public void insertaEjercicioExistente() {
+			
+			//assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
 		}
 
 		@Test 
