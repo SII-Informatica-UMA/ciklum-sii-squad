@@ -1,5 +1,7 @@
 package siisquad.rutinas.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +24,7 @@ public class EjercicioEnRutina {
     private int duracionMinutos;
 
     @ManyToOne
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
     private Ejercicio ejercicio;
 
     // toString

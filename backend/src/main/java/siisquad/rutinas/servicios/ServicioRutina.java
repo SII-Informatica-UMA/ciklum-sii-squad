@@ -35,13 +35,9 @@ public class ServicioRutina {
     }
 
     public Long addRutina(Long idEntrenador, Rutina rutina){
-        if (!repositorioRutina.existsByNombre(rutina.getNombre())) {
-			rutina.setId(null);
-			repositorioRutina.save(rutina);
-			return rutina.getId();
-		} else {
-			throw new EntidadExistenteException();
-		}
+        rutina.setEntrenador(idEntrenador.intValue());
+        repositorioRutina.save(rutina);
+        return rutina.getId();
     }
 
     /**

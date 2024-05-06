@@ -71,8 +71,8 @@ public class RutinaController {
 
     @PostMapping
     public ResponseEntity<?> aniadirRutina(@RequestParam("entrenador") Long id, @RequestBody RutinaNuevaDTO rutinaNuevaDTO, UriComponentsBuilder uriBuilder){
-        Rutina rutina = servicio.addRutina(Mapper.toRutina(rutinaNuevaDTO));
-        return ResponseEntity.created(rutinaUriBuilder(uriBuilder.build()).apply(rutina.getId()))
+        Long idRutina = servicio.addRutina(id, Mapper.toRutina(rutinaNuevaDTO));
+        return ResponseEntity.created(rutinaUriBuilder(uriBuilder.build()).apply(idRutina))
                 .build();
     }
 
