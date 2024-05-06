@@ -38,7 +38,7 @@ public class ServicioEjercicio {
     }
 
     public void deleteEjercicio(Long id) {
-        if (repositorioEjercicio.existsById(id)) {
+        if (!repositorioEjercicio.existsById(id)) {
             throw new EntidadNoEncontradaException();
         }
         repositorioEjercicio.deleteById(id);
