@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+create.sql
 data
 ### STS ###
 .apt_generated
