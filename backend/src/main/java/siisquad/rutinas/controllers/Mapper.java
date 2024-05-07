@@ -5,6 +5,8 @@ import siisquad.rutinas.dtos.*;
 import siisquad.rutinas.entities.*;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,11 +70,16 @@ public class Mapper {
      * @return Rutina
      */
     public  static Rutina toRutina(RutinaNuevaDTO rutinaNuevaDTO) {
+        List<EjercicioEnRutina> ejercicios = null;
+        if (rutinaNuevaDTO.getEjercicios() != null)
+            rutinaNuevaDTO.getEjercicios().stream().map(Mapper::toEjercicioEnRutina).toList();
+        else
+            ejercicios = new ArrayList<>(5);
         return Rutina.builder()
                 .nombre(rutinaNuevaDTO.getNombre())
                 .descripcion(rutinaNuevaDTO.getDescripcion())
                 .observaciones(rutinaNuevaDTO.getObservaciones())
-                .ejercicios(rutinaNuevaDTO.getEjercicios().stream().map(Mapper::toEjercicioEnRutina).toList())
+                .ejercicios(ejercicios)
                 .build();
     }
 

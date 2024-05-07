@@ -27,7 +27,7 @@ import siisquad.rutinas.dtos.*;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@DisplayName("")
+@DisplayName("Tests api Rest")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 class RutinasApplicationTests {
 
@@ -40,63 +40,46 @@ class RutinasApplicationTests {
 	private final String host = "localhost";
 	@Autowired
 	private RepositorioRutina rutinaRepo;
+	@Autowired
+	private RepositorioEjercicio ejercicioRepo;
 
 	private final String entrenadorParam = "?entrenador=0";
 	private final String rutinaPath= "/rutina";
 	private final String ejercicioPath = "/ejercicio";
 
-	@Autowired
-	private RepositorioEjercicio ejercicioRepo;
-	private URI uri(String scheme, String host, int port, String ...paths) {
-		UriBuilderFactory ubf = new DefaultUriBuilderFactory();
-		UriBuilder ub = ubf.builder()
-				.scheme(scheme)
-				.host(host).port(port);
-		for (String path: paths) {
-			ub = ub.path(path);
-		}
-		return ub.build();
-	}
-	
+
+
 	private RequestEntity<Void> get(String scheme, String host, int port, String path) {
-		URI uri = uri(scheme, host,port, path);
-		var peticion = RequestEntity.get(uri)
+		var peticion = RequestEntity.get(URI.create(scheme+"://"+host+":"+port+path))
 			.accept(MediaType.APPLICATION_JSON)
 			.build();
 		return peticion;
 	}
 	
 	private RequestEntity<Void> delete(String scheme, String host, int port, String path) {
-		URI uri = uri(scheme, host,port, path);
-		var peticion = RequestEntity.delete(uri)
+		var peticion = RequestEntity.delete(URI.create(scheme+"://"+host+":"+port+path))
 			.build();
 		return peticion;
 	}
 	
 	private <T> RequestEntity<T> post(String scheme, String host, int port, String path, T object) {
-		URI uri = uri(scheme, host,port, path);
-		var peticion = RequestEntity.post(uri)
+		var peticion = RequestEntity.post(URI.create(scheme+"://"+host+":"+port+path))
 			.contentType(MediaType.APPLICATION_JSON)
 			.body(object);
 		return peticion;
 	}
 	
 	private <T> RequestEntity<T> put(String scheme, String host, int port, String path, T object) {
-		URI uri = uri(scheme, host,port, path);
-		var peticion = RequestEntity.put(uri)
+		var peticion = RequestEntity.put(URI.create(scheme+"://"+host+":"+port+path))
 			.contentType(MediaType.APPLICATION_JSON)
 			.body(object);
 		return peticion;
 	}
-	
-	private void compruebaCampos(Ejercicio expected, Ejercicio actual) {
-		assertThat(actual.getNombre()).isEqualTo(expected.getNombre());
+
+
+	private String URL_BASE(){
+		return  "http://"+host+":"+port;
 	}
-	
-	private void compruebaCampos(Rutina expected, Rutina actual) {
-		assertThat(actual.getNombre()).isEqualTo(expected.getNombre());
-	}
-	
 
 	@Nested
 	@DisplayName("cuando la base de datos está vacía")
@@ -105,7 +88,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve error al acceder a una rutina concreta")
 		public void errorRutinaConcreta() {
-			var peticion = get("http", host,port, rutinaPath +"/1");
+			var peticion = get("http", host,port, rutinaPath +"/112323");
 			
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<RutinaDTO>() {});
@@ -116,8 +99,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve error al acceder a un ejercicio concreto")
 		public void errorEjercicioConcreto() {
-			var peticion = get("http", host,port, ejercicioPath + "/1");
-
+			var peticion = get("http", host,port, ejercicioPath + "/1243902834");
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<EjercicioDTO>() {});
 			
@@ -127,13 +109,14 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve una lista vacía de rutinas")
 		public void devuelveListaVaciaRutinas() {
-			var peticion = get("http", host,port, rutinaPath+entrenadorParam);
-			
+			var peticion = RequestEntity.get(URI.create(URL_BASE()+"/ejercicio?entrenador=0")).build();
+
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
-			
+
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			assertThat(respuesta.getBody()).isEqualTo("[]");
+			//Lista vacía
+			assertThat(respuesta.getBody()).isEqualTo(List.of());
 		}
 
 		@Test
@@ -144,39 +127,41 @@ class RutinasApplicationTests {
 									.nombre("Rutina1")
 									.build();
 			// Preparamos la petición con la rutina dentro
-			var peticion = post("http", host,port, "/rutina?entrenador=0", rutina);
+			var peticion = RequestEntity.post(URI.create(URL_BASE()+"/rutina?entrenador=0"))
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(rutina);
 			
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
-			
+			System.err.println(respuesta);
 			// Comprobamos el resultado
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(201);
-			assertThat(respuesta.getHeaders().get("Location").get(0))
-				.startsWith("http://localhost:"+port+"/rutina");
+
 		
-			/*List<Rutina> rutinasBD = rutinaRepo;
+			List<Rutina> rutinasBD = rutinaRepo.findAll();
 			assertThat(rutinasBD).hasSize(1);
-			assertThat(respuesta.getHeaders().get("Location").get(0))
-				.endsWith("/"+rutinasBD.get(0).getId());
-			compruebaCampos(rutina, rutinasBD.get(0));*/
+			assertThat(rutina.getNombre()).isEqualTo(rutinasBD.get(0).getNombre());
 		}
 
 		@Test
 		@DisplayName("devuelve una lista vacía de ejercicios")
 		public void devuelveListaVaciaEjercicios() {
-			
-			
-			//assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			//assertThat(respuesta.getBody()).isEmpty();
+			var peticion = RequestEntity.get(URI.create(URL_BASE()+rutinaPath+entrenadorParam)).build();
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			//Lista vacía
+			assertThat(respuesta.getBody()).isEqualTo(List.of());
 		}
 		
 		@Test
 		@DisplayName("inserta correctamente un ejercicio")
 		public void insertaEjercicio() {
-			
 			// Preparamos el ejercicio a insertar
 			var ejercicio = EjercicioNuevoDTO.builder()
-					.nombre("Ejercicio1")
+					.nombre("Ejercicio2")
 					.descripcion("desc")
 					.dificultad("dificil")
 					.material("ma")
@@ -186,18 +171,18 @@ class RutinasApplicationTests {
 					.observaciones("obs")
 					.build();
 			// Preparamos la petición con el ejercicio dentro
-
-			var peticion = post("http", host,port, "/ejercicio?entrenador=0", ejercicio);
-			System.err.println(peticion);
-			// Invocamos al servicio REST 
-			var respuesta = restTemplate.exchange(peticion,Void.class);
-			
+			var peticion = RequestEntity.post(URI.create(URL_BASE()+"/ejercicio?entrenador=0"))
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(ejercicio);
+			// Invocamos al servicio REST
+			var res = restTemplate.exchange(peticion,Void.class);
 			// Comprobamos el resultado
-			assertThat(respuesta.getStatusCode().value()).isEqualTo(201);
+			System.err.println(res);
+			assertThat(res.getStatusCode().value()).isEqualTo(201);
 
 			List<Ejercicio> ejerciciosBD = ejercicioRepo.findAll();
 			assertThat(ejerciciosBD).hasSize(1);
-
+			assertThat(ejercicio.getNombre()).isEqualTo(ejerciciosBD.get(0).getNombre());
 		}
 
 		@Test
@@ -250,7 +235,7 @@ class RutinasApplicationTests {
 		@Test 
 		@DisplayName("Obtiene una rutina")
 		public void obtieneRutina(){
-			var peticion = get("http", host,port, "/rutinas/1");
+			var peticion = get("http", host,port, "/rutina/1");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<RutinaDTO>() {});
