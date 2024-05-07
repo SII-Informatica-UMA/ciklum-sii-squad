@@ -25,8 +25,8 @@ import siisquad.rutinas.entities.*;
 import siisquad.rutinas.repositories.*;
 import siisquad.rutinas.dtos.*;
 
-
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+//@PropertySource("classpath:application-test.properties")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = { "spring.datasource.url=jdbc:h2:mem:test" })
 @DisplayName("Tests api Rest")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 class RutinasApplicationTests {
