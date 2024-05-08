@@ -119,6 +119,7 @@ class RutinasApplicationTests {
 			assertThat(respuesta.getBody()).isEqualTo(List.of());
 		}
 
+		
 		@Test
 		@DisplayName("inserta correctamente una rutina")
 		public void insertaRutina() {
@@ -146,7 +147,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve una lista vacía de ejercicios")
 		public void devuelveListaVaciaEjercicios() {
-			var peticion = RequestEntity.get(URI.create(URL_BASE()+rutinaPath+entrenadorParam)).build();
+			var peticion = RequestEntity.get(URI.create(URL_BASE()+ejercicioPath+entrenadorParam)).build();
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
@@ -223,7 +224,7 @@ class RutinasApplicationTests {
 					.nombre("Rutina1")
 					.build();
 			// Preparamos la petición con el rutina dentro
-			var peticion = post("http", host,port, "/rutina?entrenador=0", rutina);
+			var peticion = post("http", host,port, "/rutina/1", rutina);
 
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -248,7 +249,7 @@ class RutinasApplicationTests {
 		@DisplayName("Actualiza una rutina")
 		public void actualizaRutina(){
 			var rutina = RutinaDTO.builder().nombre("Rutina2").build();
-			var peticion = put("http", host,port, "/rutinas/1", rutina);
+			var peticion = put("http", host,port, "/rutina/1", rutina);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -259,7 +260,7 @@ class RutinasApplicationTests {
 		@Test 
 		@DisplayName("Elimina una rutina")
 		public void eliminaRutina(){
-			var peticion = delete("http", host,port, "/rutinas/1");
+			var peticion = delete("http", host,port, "/rutina/1");
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -275,7 +276,7 @@ class RutinasApplicationTests {
 					.nombre("Ejercicio1")
 					.build();
 			// Preparamos la petición con el ejercicio dentro
-			var peticion = post("http", host,port, "/ejercicios", ejercicio);
+			var peticion = post("http", host,port, "/ejercicio/1", ejercicio);
 
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -287,7 +288,7 @@ class RutinasApplicationTests {
 		@Test 
 		@DisplayName("Obtiene un ejercicio")
 		public void obtieneEjercicio(){
-			var peticion = get("http", host,port, "/ejercicios/1");
+			var peticion = get("http", host,port, "/ejercicio/1");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<EjercicioDTO>() {});
@@ -300,7 +301,7 @@ class RutinasApplicationTests {
 		@DisplayName("Actualiza un ejercicio")
 		public void actualizaEjercicio(){
 			var ejercicio = EjercicioDTO.builder().nombre("Ejercicio2").build();
-			var peticion = put("http", host,port, "/ejercicios/1", ejercicio);
+			var peticion = put("http", host,port, "/ejercicio/1", ejercicio);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -316,7 +317,7 @@ class RutinasApplicationTests {
 			ejercicio.setNombre("ejercicio");
 			ejercicioRepo.save(ejercicio);
 			
-			var peticion = delete("http", host,port, "/ejercicios/2");
+			var peticion = delete("http", host,port, "/ejercicio/2");
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
@@ -328,7 +329,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Devuelve una lista de rutinas")
 		public void devuelveListaRutinas() {
-			var peticion = get("http", host,port, "/rutinas");
+			var peticion = get("http", host,port, "/rutina?entrenador=0");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
@@ -340,10 +341,13 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Devuelve una lista de ejercicios")
 		public void devuelveListaEjercicios() {
-			var peticion = get("http", host,port, "/ejercicios");
+			var peticion = get("http", host,port, "/ejercicio?entrenador=0");
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody().size()).isEqualTo(1);
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
 			assertThat(respuesta.getBody().size()).isEqualTo(1);
