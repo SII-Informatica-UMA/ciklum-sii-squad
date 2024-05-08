@@ -35,19 +35,12 @@ public class ServicioRutina {
     }
 
     public Long addRutina(Long idEntrenador, Rutina rutina){
+        if (repositorioRutina.existsByNombre(rutina.getNombre())) {
+            throw new EntidadExistenteException("Rutina ya existe");
+        }
         rutina.setEntrenador(idEntrenador.intValue());
         repositorioRutina.save(rutina);
         return rutina.getId();
-    }
-
-    /**
-     * Crea Rutina en la base de datos
-     * @param rutina Rutina a crear
-     * @Throws RutinaExistenteException si la rutina ya existe previamente
-     * @return Rutina creada
-     */
-    public Rutina addRutina(Rutina rutina) {
-        return repositorioRutina.save(rutina);
     }
 
     /**

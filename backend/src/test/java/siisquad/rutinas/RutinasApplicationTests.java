@@ -224,7 +224,7 @@ class RutinasApplicationTests {
 					.nombre("Rutina1")
 					.build();
 			// Preparamos la petición con el rutina dentro
-			var peticion = post("http", host,port, "/rutina/1", rutina);
+			var peticion = post("http", host,port, "/rutina?entrenador=0", rutina);
 
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -272,11 +272,9 @@ class RutinasApplicationTests {
 		@DisplayName("Da error cuando inserta una ejercicio que ya existe")
 		public void insertaEjercicioExistente() {
 			// Preparamos el ejercicio a insertar
-			var ejercicio = EjercicioDTO.builder()
-					.nombre("Ejercicio1")
-					.build();
+			var ejercicio = Ejercicio.builder().id(1L).nombre("Ejercicio1").build();
 			// Preparamos la petición con el ejercicio dentro
-			var peticion = post("http", host,port, "/ejercicio/1", ejercicio);
+			var peticion = post("http", host,port, "/ejercicio?entrenador=0", ejercicio);
 
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -345,9 +343,6 @@ class RutinasApplicationTests {
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
-
-			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			assertThat(respuesta.getBody().size()).isEqualTo(1);
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
 			assertThat(respuesta.getBody().size()).isEqualTo(1);

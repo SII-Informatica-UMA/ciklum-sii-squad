@@ -25,9 +25,12 @@ public class ServicioEjercicio {
     }
 
     public Long addEjercicio(Long idEntrenador, Ejercicio ejercicio){
-            ejercicio.setEntrenador(idEntrenador.intValue());
-			repositorioEjercicio.save(ejercicio);
-			return ejercicio.getId();
+        if (repositorioEjercicio.existsByNombre(ejercicio.getNombre())) {
+            throw new EntidadExistenteException("Ejercicio ya existe");
+        }
+        ejercicio.setEntrenador(idEntrenador.intValue());
+		repositorioEjercicio.save(ejercicio);
+		return ejercicio.getId();
     }
 
     public Ejercicio updateEjercicio(Ejercicio ejercicio) {
