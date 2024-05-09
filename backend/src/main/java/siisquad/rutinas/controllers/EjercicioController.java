@@ -63,7 +63,7 @@ public class EjercicioController {
     @GetMapping
     public List<EjercicioDTO> obtenerEjercicios(@RequestParam("entrenador") Long id, UriComponentsBuilder uriBuilder){
         var ejercicios = servicio.getEjerciciosPorEntrenador(id);
-        return ejercicios.stream().map(e -> Mapper.toEjercicioDTO(e, ejercicioUriBuilder(uriBuilder.build()))).collect(Collectors.toList());
+        return ejercicios.stream().map(e -> Mapper.toEjercicioDTO(e, ejercicioUriBuilder(uriBuilder.build()))).toList();
     }
 
     @PostMapping

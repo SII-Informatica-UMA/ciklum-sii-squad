@@ -66,7 +66,7 @@ public class RutinaController {
     @GetMapping
     public List<RutinaDTO> obtenerRutinas(@RequestParam("entrenador") Long id, UriComponentsBuilder uriBuilder){
         var rutina = servicio.getRutinasPorEntrenador(id);
-        return rutina.stream().map(e -> Mapper.toRutinaDTO(e, rutinaUriBuilder(uriBuilder.build()), EjercicioController.ejercicioUriBuilder(uriBuilder.build()))).collect(Collectors.toList());
+        return rutina.stream().map(e -> Mapper.toRutinaDTO(e, rutinaUriBuilder(uriBuilder.build()), EjercicioController.ejercicioUriBuilder(uriBuilder.build()))).toList();
     }
 
     @PostMapping
