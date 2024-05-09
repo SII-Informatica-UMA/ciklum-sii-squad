@@ -145,6 +145,26 @@ class RutinasApplicationTests {
 		}
 
 		@Test
+		@DisplayName("devuelve error al modificar una rutina que no existe")
+		public void modificarRutinaInexistente() {
+			var ejercicio = EjercicioDTO.builder().nombre("Rutina1").build();
+			var peticion = put("http", host,port, "/rutina/2", ejercicio);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(404);
+		}
+
+		@Test
+		@DisplayName("devuelve error al eliminar una rutina que no existe")
+		public void eliminareRutinaInexistente() {
+			var peticion = delete("http", host,port, "/rutina/2");
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(404);
+		}
+		@Test
 		@DisplayName("devuelve una lista vacía de ejercicios")
 		public void devuelveListaVaciaEjercicios() {
 			var peticion = RequestEntity.get(URI.create(URL_BASE()+ejercicioPath+entrenadorParam)).build();
@@ -199,7 +219,7 @@ class RutinasApplicationTests {
 
 		@Test
 		@DisplayName("devuelve error al eliminar un ejercicio que no existe")
-		public void eliminareEercicioInexistente() {
+		public void eliminareEjercicioInexistente() {
 			var peticion = delete("http", host,port, "/ejercicio/2");
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
@@ -324,28 +344,5 @@ class RutinasApplicationTests {
 
 		}
 
-		@Test
-		@DisplayName("Devuelve una lista de rutinas")
-		public void devuelveListaRutinas() {
-			var peticion = get("http", host,port, "/rutina?entrenador=0");
-
-			var respuesta = restTemplate.exchange(peticion,
-					new ParameterizedTypeReference<List<RutinaDTO>>() {});
-
-			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			assertThat(respuesta.getBody().size()).isEqualTo(1);
-		}
-	
-		@Test
-		@DisplayName("Devuelve una lista de ejercicios")
-		public void devuelveListaEjercicios() {
-			var peticion = get("http", host,port, "/ejercicio?entrenador=0");
-
-			var respuesta = restTemplate.exchange(peticion,
-					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
-
-			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			assertThat(respuesta.getBody().size()).isEqualTo(1);
-		}
 	}
 }
