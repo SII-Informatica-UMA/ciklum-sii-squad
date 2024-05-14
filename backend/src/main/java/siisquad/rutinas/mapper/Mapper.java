@@ -1,6 +1,5 @@
-package siisquad.rutinas.controllers;
+package siisquad.rutinas.mapper;
 
-import org.springframework.web.util.UriComponents;
 import siisquad.rutinas.dtos.*;
 import siisquad.rutinas.entities.*;
 
@@ -8,7 +7,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Mapper {
     /**

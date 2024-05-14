@@ -6,11 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-import siisquad.rutinas.dtos.EjercicioDTO;
-import siisquad.rutinas.dtos.EjercicioNuevoDTO;
+import siisquad.rutinas.mapper.Mapper;
 import siisquad.rutinas.dtos.RutinaDTO;
 import siisquad.rutinas.dtos.RutinaNuevaDTO;
-import siisquad.rutinas.entities.Ejercicio;
 import siisquad.rutinas.entities.Rutina;
 import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
@@ -19,7 +17,6 @@ import siisquad.rutinas.servicios.ServicioRutina;
 import java.net.URI;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
