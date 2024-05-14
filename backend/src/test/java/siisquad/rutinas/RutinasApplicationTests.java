@@ -109,7 +109,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve una lista vacía de rutinas")
 		public void devuelveListaVaciaRutinas() {
-			var peticion = RequestEntity.get(URI.create(URL_BASE()+"/ejercicio?entrenador=0")).build();
+			var peticion = RequestEntity.get(URI.create(URL_BASE()+"/rutina?entrenador=0")).build();
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
