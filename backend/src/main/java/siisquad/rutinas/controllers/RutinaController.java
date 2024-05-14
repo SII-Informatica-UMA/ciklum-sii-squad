@@ -37,7 +37,7 @@ public class RutinaController {
      */
     public static Function<Long, URI> rutinaUriBuilder(UriComponents uriComponents) {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance().uriComponents(uriComponents);
-        return id -> uriBuilder.path("/ejercicio")
+        return id -> uriBuilder.path("/rutina")
                 .path(String.format("/%d", id)) //anade path al builder
                 .build()    //Crea UriComponents con los components previos contenidos en el builder
                 .toUri();   //Crea URI
