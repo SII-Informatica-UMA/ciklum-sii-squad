@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -25,8 +26,8 @@ import siisquad.rutinas.entities.*;
 import siisquad.rutinas.repositories.*;
 import siisquad.rutinas.dtos.*;
 
-//@PropertySource("classpath:application-test.properties")
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = { "spring.datasource.url=jdbc:h2:mem:test" })
+@PropertySource("classpath:application-test.properties")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @DisplayName("Tests api Rest")
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 class RutinasApplicationTests {
