@@ -4,11 +4,14 @@ import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.core.userdetails.UserDetails;
+import siisquad.rutinas.security.JwtUtil;
 
 @SpringBootApplication
 public class RutinasApplication {
 
 	public static void main(String[] args) {
+        JwtUtil jwt = new JwtUtil();
 		SpringApplication.run(RutinasApplication.class, args);
 	}
 
