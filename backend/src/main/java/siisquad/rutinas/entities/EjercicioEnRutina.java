@@ -19,9 +19,9 @@ public class EjercicioEnRutina {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int series;
-    private int repeticiones;
-    private int duracionMinutos;
+    private Integer series;
+    private Integer repeticiones;
+    private Integer duracionMinutos;
 
     @ManyToOne
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
