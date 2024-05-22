@@ -247,8 +247,8 @@ class RutinasApplicationTests {
 	public class BaseDatosLlena {
 		@BeforeEach
 		public void crearDatos(){
-			ejercicioRepo.save(Ejercicio.builder().id(1L).nombre("Ejercicio1").build());
-			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").build());
+			ejercicioRepo.save(Ejercicio.builder().id(1L).nombre("Ejercicio1").entrenador(0).build());
+			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").entrenador(0).build());
 		}
 
 		@Test
@@ -300,7 +300,7 @@ class RutinasApplicationTests {
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			//assertThat(rutinaRepo.count()).isEqualTo(0);
+			assertThat(rutinaRepo.count()).isEqualTo(0);
 		}
 
 		@Test
@@ -346,16 +346,12 @@ class RutinasApplicationTests {
 		@Test 
 		@DisplayName("Elimina un ejercicio")
 		public void eliminaEjercicio(){
-			var ejercicio = new Ejercicio();
-			ejercicio.setNombre("ejercicio");
-			ejercicioRepo.save(ejercicio);
-			
-			var peticion = delete("http", host,port, "/ejercicio/2", jwtToken);
+			var peticion = delete("http", host,port, "/ejercicio/1", jwtToken);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			assertThat(ejercicioRepo.count()).isEqualTo(1);
+			assertThat(ejercicioRepo.count()).isEqualTo(0);
 
 		}
 

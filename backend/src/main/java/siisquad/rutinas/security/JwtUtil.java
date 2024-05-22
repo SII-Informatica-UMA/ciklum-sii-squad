@@ -31,12 +31,14 @@ package siisquad.rutinas.security;
 
 
 import java.security.Key;
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +46,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+
+import javax.security.auth.Subject;
 
 @Component
 public class JwtUtil {
@@ -54,6 +58,10 @@ public class JwtUtil {
     @Value("${jwt.token.validity}")
     private long tokenValidity;
 
+    public static Long getIdFromToken(Authentication auth){
+        Long idReal = Long.parseLong(auth.getName().substring(auth.getName().indexOf('=')+1));
+        return idReal;
+    }
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
