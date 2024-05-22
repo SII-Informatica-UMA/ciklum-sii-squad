@@ -396,10 +396,11 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Acceso con token válido a ejercicio existente")
 		public void ejercicioExistente() {
-			var ejercicio = EjercicioDTO.builder()
+			var ejercicio = Ejercicio.builder()
 					.nombre("EjercicioExistente")
 					.build();
-
+			ejercicioRepo.save(ejercicio);
+			
 			var peticion = post("http", host, port, ejercicioPath + entrenadorParam, jwtToken, ejercicio);
 
 			var respuesta = restTemplate.exchange(peticion, String.class);
@@ -455,10 +456,10 @@ class RutinasApplicationTests {
         @Test
         @DisplayName("Acceso con token válido a rutina existente")
         public void rutinaExistente() {
-            var rutina = RutinaDTO.builder()
+            var rutina = Rutina.builder()
                                 .nombre("RutinaExistente")
                                 .build();
-
+			rutinaRepo.save(rutina);
             var peticion = post("http", host, port, rutinaPath + entrenadorParam, jwtToken, rutina);
 
             var respuesta = restTemplate.exchange(peticion, String.class);
