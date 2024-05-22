@@ -2,6 +2,8 @@ package siisquad.rutinas.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -60,7 +62,12 @@ public class EjercicioController {
 
 
     @GetMapping
-    public List<EjercicioDTO> obtenerEjercicios(@RequestParam("entrenador") Long id, UriComponentsBuilder uriBuilder){
+    public List<EjercicioDTO> obtenerEjercicios(@RequestParam("entrenador") Long id, UriComponentsBuilder uriBuilder,Authentication auth){
+        Long idReal = Long.parseLong(auth.getName().substring(auth.getName().indexOf('=')+1));
+        System.err.println(idReal);
+        if (!idReal.equals(id)){
+            throw new BadCredentialsException("No tienes permisos para ver los ejercicios de otro entrenador");
+        }
         var ejercicios = servicio.getEjerciciosPorEntrenador(id);
         return ejercicios.stream().map(e -> Mapper.toEjercicioDTO(e, ejercicioUriBuilder(uriBuilder.build()))).toList();
     }
@@ -80,4 +87,7 @@ public class EjercicioController {
     @ExceptionHandler(EntidadExistenteException.class)
     @ResponseStatus(code = HttpStatus.CONFLICT)
     public void existente() {}
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    public void errorAutenticacion() {}
 }
