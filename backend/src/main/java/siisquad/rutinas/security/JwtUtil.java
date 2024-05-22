@@ -96,6 +96,16 @@ public class JwtUtil {
         Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, username);
     }
+
+    public String generateExpiredToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, userDetails.getUsername(), new Date(System.currentTimeMillis() - 3600)); 
+    }
+
+    public String generateExpiredToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return doGenerateToken(claims, username, new Date(System.currentTimeMillis() - 3600)); 
+    }
     //while creating the token -
     //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
     //2. Sign the JWT using the HS512 algorithm and secret key.
@@ -108,11 +118,19 @@ public class JwtUtil {
 //				.signWith(SignatureAlgorithm.HS512, secret).compact();
 //	}
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    private String doGenerateToken(Map<String, Object> claims, String subject, Date date) {
         byte[] keyBytes = secret.getBytes();
         Key key = Keys.hmacShaKeyFor(keyBytes);
 
+        return Jwts.builder().setClaims(claims).setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(date)
+                .signWith(key, SignatureAlgorithm.HS512).compact();
+    }
 
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
+        byte[] keyBytes = secret.getBytes();
+        Key key = Keys.hmacShaKeyFor(keyBytes);
 
         return Jwts.builder().setClaims(claims).setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))

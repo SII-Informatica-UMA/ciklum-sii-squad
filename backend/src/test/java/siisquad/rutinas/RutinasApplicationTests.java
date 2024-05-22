@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -358,5 +359,56 @@ class RutinasApplicationTests {
 
 		}
 
+	}
+	@Nested
+	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+	@DisplayName("Tests de autenticación")
+	public class TestsAutenticacion{
+
+		@Test
+		@DisplayName("Acceso sin token de autenticación")
+		public void accesoSinToken() {
+			var peticion = get("http", host, port, rutinaPath + "/112323", null);
+
+			var respuesta = restTemplate.exchange(peticion, String.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Acceso con token no válido")
+		public void accesoConTokenNoValido() {
+			var tokenInvalido = "token_novalido";
+
+			var peticion = get("http", host, port, rutinaPath + "/112323", tokenInvalido);
+
+			var respuesta = restTemplate.exchange(peticion, String.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Acceso con token válido pero caducado")
+		public void accesoConTokenCaducado() {
+			var tokenCaducado = jwtUtil.generateExpiredToken("0");
+
+			var peticion = get("http", host, port, rutinaPath + "/112323", tokenCaducado);
+
+			var respuesta = restTemplate.exchange(peticion, String.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Acceso con token válido")
+		public void accesoConTokenValido() {
+			var tokenValido = jwtUtil.generateToken("0");
+
+			var peticion = get("http", host, port, rutinaPath + "/112323", tokenValido);
+
+			var respuesta = restTemplate.exchange(peticion, String.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND); 
+		}
 	}
 }
