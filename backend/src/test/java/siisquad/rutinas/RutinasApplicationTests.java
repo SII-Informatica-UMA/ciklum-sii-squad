@@ -132,7 +132,7 @@ class RutinasApplicationTests {
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			//Lista vacía
+
 			assertThat(respuesta.getBody()).isEqualTo(List.of());
 		}
 
@@ -140,18 +140,15 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("inserta correctamente una rutina")
 		public void insertaRutina() {
-			// Preparamos la rutina a insertar
 			var rutina = Rutina.builder()
 									.nombre("Rutina1")
 									.build();
-			// Preparamos la petición con la rutina dentro
-			var peticion = post("http", host,port,rutinaPath+entrenadorParam, jwtToken, rutina);
-
 			
-			// Invocamos al servicio REST 
+			var peticion = post("http", host,port,rutinaPath+entrenadorParam, jwtToken, rutina);
+ 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
 			System.err.println(respuesta);
-			// Comprobamos el resultado
+
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(201);
 
 		
@@ -189,14 +186,12 @@ class RutinasApplicationTests {
 					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			//Lista vacía
 			assertThat(respuesta.getBody()).isEqualTo(List.of());
 		}
 		
 		@Test
 		@DisplayName("inserta correctamente un ejercicio")
 		public void insertaEjercicio() {
-			// Preparamos el ejercicio a insertar
 			var ejercicio = EjercicioNuevoDTO.builder()
 					.nombre("Ejercicio2")
 					.descripcion("desc")
@@ -207,12 +202,11 @@ class RutinasApplicationTests {
 					.multimedia(List.of("url1", "url2"))
 					.observaciones("obs")
 					.build();
-			// Preparamos la petición con el ejercicio dentro
+		
 			var peticion = post("http", host,port,ejercicioPath+entrenadorParam, jwtToken, ejercicio);
 
-			// Invocamos al servicio REST
 			var res = restTemplate.exchange(peticion,Void.class);
-			// Comprobamos el resultado
+	
 			System.err.println(res);
 			assertThat(res.getStatusCode().value()).isEqualTo(201);
 
@@ -254,17 +248,14 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Da error cuando inserta una rutina que ya existe")
 		public void insertaRutinaExistente() {
-			// Preparamos el rutina a insertar
 			var rutina = RutinaDTO.builder()
 					.nombre("Rutina1")
 					.build();
-			// Preparamos la petición con el rutina dentro
+			
 			var peticion = post("http", host,port, "/rutina?entrenador=0", jwtToken, rutina);
 
-			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
 
-			// Comprobamos el resultado
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
 		}
 
@@ -306,15 +297,12 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Da error cuando inserta una ejercicio que ya existe")
 		public void insertaEjercicioExistente() {
-			// Preparamos el ejercicio a insertar
-			var ejercicio = Ejercicio.builder().id(1L).nombre("Ejercicio1").build();
-			// Preparamos la petición con el ejercicio dentro
+			var ejercicio = EjercicioDTO.builder().id(1L).nombre("Ejercicio1").build();
+			
 			var peticion = post("http", host,port, "/ejercicio?entrenador=0", jwtToken, ejercicio);
 
-			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
 
-			// Comprobamos el resultado
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
 		}
 
@@ -408,15 +396,10 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("Acceso con token válido a ejercicio existente")
 		public void ejercicioExistente() {
-			// Preparar la rutina a insertar
-			var ejercicio = Ejercicio.builder()
+			var ejercicio = EjercicioDTO.builder()
 					.nombre("EjercicioExistente")
 					.build();
 
-			// Guardar la rutina para simular que ya existe
-			ejercicioRepo.save(ejercicio);
-
-			// Intentar insertar la misma rutina de nuevo
 			var peticion = post("http", host, port, ejercicioPath + entrenadorParam, jwtToken, ejercicio);
 
 			var respuesta = restTemplate.exchange(peticion, String.class);
@@ -472,15 +455,10 @@ class RutinasApplicationTests {
         @Test
         @DisplayName("Acceso con token válido a rutina existente")
         public void rutinaExistente() {
-            // Preparar la rutina a insertar
-            var rutina = Rutina.builder()
+            var rutina = RutinaDTO.builder()
                                 .nombre("RutinaExistente")
                                 .build();
 
-            // Guardar la rutina para simular que ya existe
-            rutinaRepo.save(rutina);
-
-            // Intentar insertar la misma rutina de nuevo
             var peticion = post("http", host, port, rutinaPath + entrenadorParam, jwtToken, rutina);
 
             var respuesta = restTemplate.exchange(peticion, String.class);
