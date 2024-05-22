@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -21,6 +22,7 @@ import org.springframework.test.context.TestPropertySource;
 import siisquad.rutinas.entities.*;
 import siisquad.rutinas.repositories.*;
 import siisquad.rutinas.dtos.*;
+import siisquad.rutinas.security.JwtUtil;
 
 @TestPropertySource(locations = "classpath:application-test.properties")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -30,6 +32,9 @@ class RutinasApplicationTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
+
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	@Value(value = "${local.server.port}")
 	private int port;
@@ -49,12 +54,14 @@ class RutinasApplicationTests {
 	private RequestEntity<Void> get(String scheme, String host, int port, String path) {
 		var peticion = RequestEntity.get(URI.create(scheme+"://"+host+":"+port+path))
 			.accept(MediaType.APPLICATION_JSON)
+			.header(HttpHeaders.AUTHORIZATION, "Bearer "+ jwtUtil.generateToken("test"))
 			.build();
 		return peticion;
 	}
 	
 	private RequestEntity<Void> delete(String scheme, String host, int port, String path) {
 		var peticion = RequestEntity.delete(URI.create(scheme+"://"+host+":"+port+path))
+			.header(HttpHeaders.AUTHORIZATION, "Bearer "+ jwtUtil.generateToken("test"))
 			.build();
 		return peticion;
 	}
@@ -62,6 +69,7 @@ class RutinasApplicationTests {
 	private <T> RequestEntity<T> post(String scheme, String host, int port, String path, T object) {
 		var peticion = RequestEntity.post(URI.create(scheme+"://"+host+":"+port+path))
 			.contentType(MediaType.APPLICATION_JSON)
+			.header(HttpHeaders.AUTHORIZATION, "Bearer "+ jwtUtil.generateToken("test"))
 			.body(object);
 		return peticion;
 	}
@@ -69,10 +77,10 @@ class RutinasApplicationTests {
 	private <T> RequestEntity<T> put(String scheme, String host, int port, String path, T object) {
 		var peticion = RequestEntity.put(URI.create(scheme+"://"+host+":"+port+path))
 			.contentType(MediaType.APPLICATION_JSON)
+			.header(HttpHeaders.AUTHORIZATION, "Bearer "+ jwtUtil.generateToken("test"))
 			.body(object);
 		return peticion;
 	}
-
 
 	private String URL_BASE(){
 		return  "http://"+host+":"+port;
@@ -106,7 +114,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve una lista vacía de rutinas")
 		public void devuelveListaVaciaRutinas() {
-			var peticion = RequestEntity.get(URI.create(URL_BASE()+"/rutina?entrenador=0")).build();
+			var peticion = get("http", host,port,rutinaPath+entrenadorParam);
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
@@ -125,9 +133,8 @@ class RutinasApplicationTests {
 									.nombre("Rutina1")
 									.build();
 			// Preparamos la petición con la rutina dentro
-			var peticion = RequestEntity.post(URI.create(URL_BASE()+"/rutina?entrenador=0"))
-					.contentType(MediaType.APPLICATION_JSON)
-					.body(rutina);
+			var peticion = post("http", host,port,rutinaPath+entrenadorParam, rutina);
+
 			
 			// Invocamos al servicio REST 
 			var respuesta = restTemplate.exchange(peticion,Void.class);
@@ -164,7 +171,7 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve una lista vacía de ejercicios")
 		public void devuelveListaVaciaEjercicios() {
-			var peticion = RequestEntity.get(URI.create(URL_BASE()+ejercicioPath+entrenadorParam)).build();
+			var peticion = get("http", host,port,ejercicioPath+entrenadorParam);
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
@@ -189,9 +196,8 @@ class RutinasApplicationTests {
 					.observaciones("obs")
 					.build();
 			// Preparamos la petición con el ejercicio dentro
-			var peticion = RequestEntity.post(URI.create(URL_BASE()+"/ejercicio?entrenador=0"))
-					.contentType(MediaType.APPLICATION_JSON)
-					.body(ejercicio);
+			var peticion = post("http", host,port,ejercicioPath+entrenadorParam, ejercicio);
+
 			// Invocamos al servicio REST
 			var res = restTemplate.exchange(peticion,Void.class);
 			// Comprobamos el resultado

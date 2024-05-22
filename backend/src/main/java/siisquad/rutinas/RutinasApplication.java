@@ -1,9 +1,11 @@
 package siisquad.rutinas;
 
+import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import siisquad.rutinas.security.JwtUtil;
 
@@ -11,7 +13,6 @@ import siisquad.rutinas.security.JwtUtil;
 public class RutinasApplication {
 
 	public static void main(String[] args) {
-        JwtUtil jwt = new JwtUtil();
 		SpringApplication.run(RutinasApplication.class, args);
 	}
 
