@@ -1,6 +1,7 @@
 package siisquad.rutinas;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import java.net.URI;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.TestPropertySource;
 
+import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestTemplate;
 import siisquad.rutinas.entities.*;
 import siisquad.rutinas.repositories.*;
 import siisquad.rutinas.dtos.*;
 import siisquad.rutinas.security.JwtUtil;
+import siisquad.rutinas.servicios.GestionEntrenamientoService;
 
 @TestPropertySource(locations = "classpath:application-test.properties")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -33,7 +38,17 @@ class RutinasApplicationTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
-
+	@Autowired
+	private RestTemplate entrenaRestTemplate;
+	private MockRestServiceServer mockServer;
+	@BeforeEach
+	public void init() {
+		mockServer = MockRestServiceServer.createServer(entrenaRestTemplate);
+	}
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 	@Autowired
 	private JwtUtil jwtUtil;
 
@@ -243,8 +258,20 @@ class RutinasApplicationTests {
 		public void crearDatos(){
 			ejercicioRepo.save(Ejercicio.builder().id(1L).nombre("Ejercicio1").entrenador(0).build());
 			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").entrenador(0).build());
+			mockServer.expect(request -> request.getURI().toString().contains("/entrena?cliente=0&entrenador=0"))
+					.andRespond(withSuccess("[{}]", MediaType.APPLICATION_JSON));
 		}
+		@Test
+		@DisplayName("Cliente acceso ejercicio")
+		public void clienteAccesoEjercicio() {
+			var peticion = get("http", host,port, "/ejercicio/1", jwtUtil.generateToken("1"));
 
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<EjercicioDTO>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody().getNombre()).isEqualTo("Ejercicio1");
+		}
 		@Test
 		@DisplayName("Da error cuando inserta una rutina que ya existe")
 		public void insertaRutinaExistente() {

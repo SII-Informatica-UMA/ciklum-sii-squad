@@ -14,6 +14,7 @@ import siisquad.rutinas.entities.Ejercicio;
 import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.security.JwtUtil;
+import siisquad.rutinas.servicios.GestionEntrenamientoService;
 import siisquad.rutinas.servicios.ServicioEjercicio;
 
 import java.net.URI;
@@ -25,6 +26,7 @@ import java.util.function.Function;
 @RequestMapping("/ejercicio")
 public class EjercicioController {
     private final ServicioEjercicio servicio;
+    private final GestionEntrenamientoService gestionEntrenamientoService = new GestionEntrenamientoService();
 
     public EjercicioController(ServicioEjercicio servicio) {
         this.servicio = servicio;
@@ -46,9 +48,10 @@ public class EjercicioController {
     @GetMapping("/{id}")
     public EjercicioDTO obtenerEjercicio(@PathVariable Long id, UriComponentsBuilder uriBuilder, Authentication auth) {
         var ejercicio = servicio.getEjercicio(id);
-        Long idEntreador = JwtUtil.getIdFromToken(auth);
-        if (!idEntreador.equals(ejercicio.getEntrenador().longValue()))
-            throw new BadCredentialsException("No tienes permisos para ver los ejercicios de otro entrenador");
+        Long idUsuario = JwtUtil.getIdFromToken(auth);
+        if (!idUsuario.equals(ejercicio.getEntrenador().longValue()))
+            if(gestionEntrenamientoService.comprubaEntrenaCliente(ejercicio.getEntrenador().longValue(),idUsuario.longValue()))
+                throw new BadCredentialsException("No tienes permisos para ver los ejercicios de otro entrenador");
         return Mapper.toEjercicioDTO(ejercicio, ejercicioUriBuilder(uriBuilder.build()));
     }
 
