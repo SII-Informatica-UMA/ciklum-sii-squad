@@ -296,6 +296,18 @@ class RutinasApplicationTests {
 		}
 
 		@Test
+		@DisplayName("devuelve una lista de rutinas")
+		public void devuelveListaRutinas() {
+			var peticion = get("http", host,port,rutinaPath+entrenadorParam, jwtToken);
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<List<RutinaDTO>>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody()).hasSize(1);
+		}
+
+		@Test
 		@DisplayName("Da error cuando inserta una ejercicio que ya existe")
 		public void insertaEjercicioExistente() {
 			var ejercicio = EjercicioDTO.builder().id(1L).nombre("Ejercicio1").build();
@@ -343,6 +355,17 @@ class RutinasApplicationTests {
 			assertThat(ejercicioRepo.count()).isEqualTo(0);
 
 		}
+		@Test
+		@DisplayName("devuelve una lista de ejercicios")
+		public void devuelveListaEjercicios() {
+			var peticion = get("http", host,port,ejercicioPath+entrenadorParam, jwtToken);
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
+			assertThat(respuesta.getBody()).hasSize(1);
+		}
 
 	}
 	@Nested
@@ -354,18 +377,13 @@ class RutinasApplicationTests {
 			ejercicioRepo.save(Ejercicio.builder().id(1L).nombre("Ejercicio1").entrenador(0).build());
 			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").entrenador(0).build());
 		}
+		@Test
+		@DisplayName("devuelve una lista de rutinas")
+		public void devuelveListaRutinas() {
+			var peticion = get("http", host,port,rutinaPath+entrenadorParam, tokenInvalido);
 
-		//@Test
-		@DisplayName("Da error cuando inserta una rutina que ya existe")
-		public void insertaRutinaExistente() {
-			
-			var rutina = RutinaDTO.builder()
-					.nombre("Rutina1")
-					.build();
-
-			var peticion = post("http", host,port, "/rutina?entrenador=0", tokenInvalido, rutina);
-
-			var respuesta = restTemplate.exchange(peticion,Void.class);
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<List<RutinaDTO>>() {});
 
 			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 		}
@@ -406,14 +424,12 @@ class RutinasApplicationTests {
 		}
 
 		@Test
-		@DisplayName("Da error cuando inserta una ejercicio que ya existe")
-		public void insertaEjercicioExistente() {
-			
-			var ejercicio = EjercicioDTO.builder().id(1L).nombre("Ejercicio1").build();
+		@DisplayName("devuelve una lista de ejercicios")
+		public void devuelveListaEjercicios() {
+			var peticion = get("http", host,port,ejercicioPath+entrenadorParam, tokenInvalido);
 
-			var peticion = post("http", host,port, "/ejercicio?entrenador=0", tokenInvalido, ejercicio);
-
-			var respuesta = restTemplate.exchange(peticion,Void.class);
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<List<EjercicioDTO>>() {});
 
 			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 		}
