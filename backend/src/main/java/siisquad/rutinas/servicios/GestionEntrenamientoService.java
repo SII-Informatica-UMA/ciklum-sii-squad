@@ -11,12 +11,16 @@ import java.util.List;
 @Service
 public class GestionEntrenamientoService {
     @Bean
-    public static RestTemplate restTemplate() {
+    public static RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
-    @Autowired
+
     private RestTemplate restTemplate;
 
+    @Autowired
+    public GestionEntrenamientoService(RestTemplate restTemplate){
+        this.restTemplate = restTemplate;
+    }
     public boolean comprubaEntrenaCliente(Long idEntrenador, Long idCliente){
         ResponseEntity<List> resp =
                 restTemplate.getForEntity("http://localhost:8080/entrena?cliente=" + idCliente + "&entrenador=" + idEntrenador, List.class);

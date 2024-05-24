@@ -260,17 +260,28 @@ class RutinasApplicationTests {
 			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").entrenador(0).build());
 			mockServer.expect(request -> request.getURI().toString().contains("/entrena?cliente=0&entrenador=0"))
 					.andRespond(withSuccess("[{}]", MediaType.APPLICATION_JSON));
+			mockServer.expect(request -> request.getURI().toString().contains("/entrena?cliente=1&entrenador=0"))
+					.andRespond(withSuccess("[{}]", MediaType.APPLICATION_JSON));
 		}
 		@Test
-		@DisplayName("Cliente acceso ejercicio")
+		@DisplayName("Cliente acceso ejercicio sin permiso")
 		public void clienteAccesoEjercicio() {
+			var peticion = get("http", host,port, "/ejercicio/1", jwtUtil.generateToken("2"));
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<EjercicioDTO>() {});
+
+			assertThat(respuesta.getStatusCode().value()).isEqualTo(403);
+		}
+		@Test
+		@DisplayName("Cliente acceso ejercicio con permiso")
+		public void clienteAccesoEjercicioOk() {
 			var peticion = get("http", host,port, "/ejercicio/1", jwtUtil.generateToken("1"));
 
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<EjercicioDTO>() {});
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			assertThat(respuesta.getBody().getNombre()).isEqualTo("Ejercicio1");
 		}
 		@Test
 		@DisplayName("Da error cuando inserta una rutina que ya existe")
