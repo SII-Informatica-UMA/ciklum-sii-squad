@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class GestionEntrenamientoService {
     @Bean
-    public RestTemplate restTemplate() {
+    public static RestTemplate restTemplate() {
         return new RestTemplate();
     }
     @Autowired
