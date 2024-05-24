@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import siisquad.rutinas.dtos.AsignacionEntrenamientoDTO;
 import siisquad.rutinas.dtos.RutinaDTO;
 
 import java.net.URI;
@@ -18,8 +19,7 @@ import java.util.Set;
 @Service
 public class ServicioEntrena {
 
-    @Value(value = "${local.server.port}")
-    private int port;
+    private final int port=9001;
 
     private final String host = "localhost";
 
@@ -31,20 +31,22 @@ public class ServicioEntrena {
         this.restTemplate = restTemplate;
     }
 
-    private RequestEntity<Void> get(String scheme, String host, int port, String path, String token) {
-        var peticion = RequestEntity.get(URI.create(scheme+"://"+host+":"+port+path))
-                .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer "+ token)
-                .build();
-        return peticion;
-    }
-
-    public Long getEntrenadorDeCliente(Long idCliente, String token)
+    /**
+     * Obtiene la asignacion del cliente idCliente con su entrenador si existe
+     * @param idCliente
+     * @param token supuestamente viene ya con Bearer
+     * @return
+     */
+    public Optional<AsignacionEntrenamientoDTO> getEntrenadorDeCliente(Long idCliente, String token)
     {
-        var peticion = RequestEntity.get("http://localhost:"+port+"/entrena?cliente="+idCliente).build();
+        // Define las cabeceras de la solicitud y añade el token JWT
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+
+        var peticion = RequestEntity.get("http://localhost:"+port+"/entrena?cliente="+idCliente.intValue()).headers(headers).build();
         var respuesta = restTemplate.exchange(peticion,
-                new ParameterizedTypeReference<Long>() {});
-        return respuesta.getBody();
+                new ParameterizedTypeReference<AsignacionEntrenamientoDTO>() {});
+        return Optional.ofNullable(respuesta.getBody());
     }
 
 

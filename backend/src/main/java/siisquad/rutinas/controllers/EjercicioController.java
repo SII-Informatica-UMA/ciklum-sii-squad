@@ -15,6 +15,7 @@ import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
 import siisquad.rutinas.security.JwtUtil;
 import siisquad.rutinas.servicios.ServicioEjercicio;
+import siisquad.rutinas.servicios.ServicioEntrena;
 
 import java.net.URI;
 import java.util.List;
@@ -25,9 +26,11 @@ import java.util.function.Function;
 @RequestMapping("/ejercicio")
 public class EjercicioController {
     private final ServicioEjercicio servicio;
+    private final ServicioEntrena servicioEntrena;
 
-    public EjercicioController(ServicioEjercicio servicio) {
+    public EjercicioController(ServicioEjercicio servicio, ServicioEntrena servicioEntrena) {
         this.servicio = servicio;
+        this.servicioEntrena = servicioEntrena;
     }
 
     /**
@@ -44,10 +47,11 @@ public class EjercicioController {
 
 
     @GetMapping("/{id}")
-    public EjercicioDTO obtenerEjercicio(@PathVariable Long id, UriComponentsBuilder uriBuilder, Authentication auth) {
+    public EjercicioDTO obtenerEjercicio(@PathVariable Long id, @RequestHeader("Authorization") String authorizationHeader, UriComponentsBuilder uriBuilder, Authentication auth) {
         var ejercicio = servicio.getEjercicio(id);
         Long idEoC = JwtUtil.getIdFromToken(auth); //Id del entrenador o del cliente
-        if (!idEoC.equals(ejercicio.getEntrenador().longValue()))
+        Long idEntrenadorCreador = ejercicio.getEntrenador().longValue();
+        if (!idEoC.equals(idEntrenadorCreador) && servicioEntrena.getEntrenadorDeCliente(idEoC, authorizationHeader).isPresent() && !servicioEntrena.getEntrenadorDeCliente(idEoC, authorizationHeader).get().getIdEntrenador().equals(idEntrenadorCreador))
             throw new BadCredentialsException("No tienes permisos para ver los ejercicios de otro entrenador");
         return Mapper.toEjercicioDTO(ejercicio, ejercicioUriBuilder(uriBuilder.build()));
     }
@@ -83,10 +87,10 @@ public class EjercicioController {
 
     @PostMapping
     public ResponseEntity<?> aniadirEjercicio(@RequestParam("entrenador") Long id, @RequestBody EjercicioNuevoDTO ejercicioNuevoDTO, UriComponentsBuilder uriBuilder, Authentication auth){
-        Long idEntreador = JwtUtil.getIdFromToken(auth);
-        if (!idEntreador.equals(id))
+        Long idEoC = JwtUtil.getIdFromToken(auth);
+        if (!idEoC.equals(id))
             throw new BadCredentialsException("No tienes permisos para crear ejercicios de otros entrenadores");
-        Long idEjercicio = servicio.addEjercicio(id, Mapper.toEjercicio(ejercicioNuevoDTO,idEntreador.intValue()));
+        Long idEjercicio = servicio.addEjercicio(id, Mapper.toEjercicio(ejercicioNuevoDTO,idEoC.intValue()));
         return ResponseEntity.created(ejercicioUriBuilder(uriBuilder.build()).apply(idEjercicio))
                 .build();
     }
