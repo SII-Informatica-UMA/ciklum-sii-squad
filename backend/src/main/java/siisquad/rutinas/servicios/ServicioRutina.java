@@ -50,9 +50,6 @@ public class ServicioRutina {
      * @return Rutina actualizada
      */
     public Rutina updateRutina(Rutina rutina) {
-        if (repositorioRutina.findById(rutina.getId()).isEmpty()) {
-            throw new EntidadNoEncontradaException();
-        }
         return repositorioRutina.save(rutina);
     }
 
@@ -62,9 +59,6 @@ public class ServicioRutina {
      * @Throws RutinaNoEncontrada si la rutina no existe previamente
      */
     public void deleteRutina(Long id) {
-        if(!repositorioRutina.existsById(id)) {
-            throw new EntidadNoEncontradaException();
-        }
         repositorioRutina.deleteById(id);
     }
 
