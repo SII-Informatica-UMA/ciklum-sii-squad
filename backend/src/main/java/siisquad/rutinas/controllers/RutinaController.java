@@ -28,9 +28,11 @@ import java.util.function.Function;
 public class RutinaController {
     private final ServicioRutina servicio;
 
-    private final GestionEntrenamientoService gestionEntrenamientoService = new GestionEntrenamientoService();
-    public RutinaController(ServicioRutina servicio) {
+    private final GestionEntrenamientoService gestionEntrenamientoService;
+
+    public RutinaController(ServicioRutina servicio, GestionEntrenamientoService gestionEntrenamientoService){
         this.servicio = servicio;
+        this.gestionEntrenamientoService = gestionEntrenamientoService;
     }
 
     /**

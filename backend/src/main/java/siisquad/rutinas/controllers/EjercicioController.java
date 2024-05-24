@@ -26,10 +26,11 @@ import java.util.function.Function;
 @RequestMapping("/ejercicio")
 public class EjercicioController {
     private final ServicioEjercicio servicio;
-    private final GestionEntrenamientoService gestionEntrenamientoService = new GestionEntrenamientoService();
+    private final GestionEntrenamientoService gestionEntrenamientoService;
 
-    public EjercicioController(ServicioEjercicio servicio) {
+    public EjercicioController(ServicioEjercicio servicio, GestionEntrenamientoService gestionEntrenamientoService) {
         this.servicio = servicio;
+        this.gestionEntrenamientoService = gestionEntrenamientoService;
     }
 
     /**
