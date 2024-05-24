@@ -46,8 +46,8 @@ public class EjercicioController {
     @GetMapping("/{id}")
     public EjercicioDTO obtenerEjercicio(@PathVariable Long id, UriComponentsBuilder uriBuilder, Authentication auth) {
         var ejercicio = servicio.getEjercicio(id);
-        Long idEntreador = JwtUtil.getIdFromToken(auth);
-        if (!idEntreador.equals(ejercicio.getEntrenador().longValue()))
+        Long idEoC = JwtUtil.getIdFromToken(auth); //Id del entrenador o del cliente
+        if (!idEoC.equals(ejercicio.getEntrenador().longValue()))
             throw new BadCredentialsException("No tienes permisos para ver los ejercicios de otro entrenador");
         return Mapper.toEjercicioDTO(ejercicio, ejercicioUriBuilder(uriBuilder.build()));
     }
