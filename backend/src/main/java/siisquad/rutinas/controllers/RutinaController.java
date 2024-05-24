@@ -84,7 +84,7 @@ public class RutinaController {
     @PostMapping
     public ResponseEntity<?> aniadirRutina(@RequestParam("entrenador") Long id, @RequestBody RutinaNuevaDTO rutinaNuevaDTO, UriComponentsBuilder uriBuilder, Authentication auth){
         Integer idEntreador = JwtUtil.getIdFromToken(auth).intValue();
-        if(idEntreador.equals(id.longValue())){
+        if(!idEntreador.equals(id.intValue())){
             throw new BadCredentialsException("No tienes permisos para crear rutinas de otro entrenador");
         }
         Long idRutina = servicio.addRutina(id, Mapper.toRutina(rutinaNuevaDTO,idEntreador));
