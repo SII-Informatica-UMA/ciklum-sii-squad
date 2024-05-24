@@ -18,15 +18,20 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtRequestFilter extends OncePerRequestFilter { //Extiende de una clase para crear filtros personalizados por cada solicitud
 
     @Autowired
     private JwtUtil jwtTokenUtil;
 
+    /**
+     * Se ejecuta en cada solicitud HTTP.
+     * Se encarga de extraer el token de la solicitud,validadarlo y establecer autenticación
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
 
+        //Se obtiene la cabecera "Authorization" de la solicitud.
         final String requestTokenHeader = request.getHeader("Authorization");
 
         String username = null;
@@ -47,7 +52,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             logger.info("El token no comienza con Bearer");
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        //Si el nombre de usuario no es nulo y no hay una autenticación existente en el contexto de seguridad, se procede a validar el token.
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) { //SecurityContextHolder almacena los detalles de quien se ha autenticado
             UserDetails userDetails = new User(username, "", Collections.EMPTY_LIST);
 
             if (!jwtTokenUtil.isTokenExpired(jwtToken)) {
