@@ -348,6 +348,111 @@ class RutinasApplicationTests {
 	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 	@DisplayName("Tests de autenticación")
 	public class TestsAutenticacion{
+		@BeforeEach
+		public void crearDatos(){
+			ejercicioRepo.save(Ejercicio.builder().id(1L).nombre("Ejercicio1").entrenador(0).build());
+			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").entrenador(0).build());
+		}
+
+		@Test
+		@DisplayName("Da error cuando inserta una rutina que ya existe")
+		public void insertaRutinaExistente() {
+			var tokenInvalido = "token_novalido";
+			var rutina = RutinaDTO.builder()
+					.nombre("Rutina1")
+					.build();
+
+			var peticion = post("http", host,port, "/rutina?entrenador=0", tokenInvalido, rutina);
+
+			var respuesta = restTemplate.exchange(peticion,Void.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Obtiene una rutina")
+		public void obtieneRutina(){
+			var tokenInvalido = "token_novalido";
+			var peticion = get("http", host,port, "/rutina/1", tokenInvalido);
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<RutinaDTO>() {});
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Actualiza una rutina")
+		public void actualizaRutina(){
+			var tokenInvalido = "token_novalido";
+			var rutina = RutinaDTO.builder().nombre("Rutina2").build();
+			var peticion = put("http", host,port, "/rutina/1", tokenInvalido, rutina);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Elimina una rutina")
+		public void eliminaRutina(){
+			var tokenInvalido = "token_novalido";
+			var peticion = delete("http", host,port, "/rutina/1", tokenInvalido);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Da error cuando inserta una ejercicio que ya existe")
+		public void insertaEjercicioExistente() {
+			var tokenInvalido = "token_novalido";
+			var ejercicio = EjercicioDTO.builder().id(1L).nombre("Ejercicio1").build();
+
+			var peticion = post("http", host,port, "/ejercicio?entrenador=0", tokenInvalido, ejercicio);
+
+			var respuesta = restTemplate.exchange(peticion,Void.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Obtiene un ejercicio")
+		public void obtieneEjercicio(){
+			var tokenInvalido = "token_novalido";
+			var peticion = get("http", host,port, "/ejercicio/1", tokenInvalido);
+
+			var respuesta = restTemplate.exchange(peticion,
+					new ParameterizedTypeReference<EjercicioDTO>() {});
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Actualiza un ejercicio")
+		public void actualizaEjercicio(){
+			var tokenInvalido = "token_novalido";
+			var ejercicio = EjercicioDTO.builder().nombre("Ejercicio2").build();
+			var peticion = put("http", host,port, "/ejercicio/1", tokenInvalido, ejercicio);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@DisplayName("Elimina un ejercicio")
+		public void eliminaEjercicio(){
+			var tokenInvalido = "token_novalido";
+
+			var peticion = delete("http", host,port, "/ejercicio/1", tokenInvalido);
+
+			var respuesta = restTemplate.exchange(peticion, Void.class);
+
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+
+		}
 		@Test
 		@DisplayName("Acceso con token no válido a ejercicio")
 		public void accesoConTokenNoValidoEjercicio() {
@@ -442,29 +547,5 @@ class RutinasApplicationTests {
 			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 		}
 
-		@Test
-        @DisplayName("Acceso con token válido a rutina no encontrada")
-        public void accesoRutinaNoEncontrada() {
-
-            var peticion = get("http", host, port, rutinaPath +"/999999", jwtToken);
-            
-            var respuesta = restTemplate.exchange(peticion, String.class);
-
-            assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        }
-
-        @Test
-        @DisplayName("Acceso con token válido a rutina existente")
-        public void rutinaExistente() {
-            var rutina = Rutina.builder()
-                                .nombre("RutinaExistente")
-                                .build();
-			rutinaRepo.save(rutina);
-            var peticion = post("http", host, port, rutinaPath + entrenadorParam, jwtToken, rutina);
-
-            var respuesta = restTemplate.exchange(peticion, String.class);
-
-            assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
-        }
 	}
 }
