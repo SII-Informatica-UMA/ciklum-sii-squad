@@ -378,6 +378,20 @@ class RutinasApplicationTests {
 			rutinaRepo.save(Rutina.builder().id(1L).nombre("Rutina1").entrenador(0).build());
 		}
 		@Test
+		@DisplayName("inserta correctamente una rutina")
+		public void insertaRutina() {
+			var rutina = Rutina.builder()
+					.nombre("Rutina1")
+					.build();
+
+			var peticion = post("http", host,port,rutinaPath+entrenadorParam, tokenInvalido, rutina);
+
+			var respuesta = restTemplate.exchange(peticion,Void.class);
+			System.err.println(respuesta);
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
 		@DisplayName("devuelve una lista de rutinas")
 		public void devuelveListaRutinas() {
 			var peticion = get("http", host,port,rutinaPath+entrenadorParam, tokenInvalido);
@@ -467,6 +481,28 @@ class RutinasApplicationTests {
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
+			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+
+		}
+
+		@Test
+		@DisplayName("inserta correctamente un ejercicio")
+		public void insertaEjercicio() {
+			var ejercicio = EjercicioNuevoDTO.builder()
+					.nombre("Ejercicio2")
+					.descripcion("desc")
+					.dificultad("dificil")
+					.material("ma")
+					.tipo("t")
+					.musculosTrabajados("m")
+					.multimedia(List.of("url1", "url2"))
+					.observaciones("obs")
+					.build();
+
+			var peticion = post("http", host,port,ejercicioPath+entrenadorParam,tokenInvalido, ejercicio);
+
+			var respuesta = restTemplate.exchange(peticion,Void.class);
+			
 			assertThat(respuesta.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 
 		}
