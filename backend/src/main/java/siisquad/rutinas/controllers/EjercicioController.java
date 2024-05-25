@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import siisquad.rutinas.dtos.AsignacionEntrenamientoDTO;
 import siisquad.rutinas.mapper.Mapper;
 import siisquad.rutinas.dtos.EjercicioDTO;
 import siisquad.rutinas.dtos.EjercicioNuevoDTO;
@@ -18,6 +19,7 @@ import siisquad.rutinas.servicios.ServicioEjercicio;
 import siisquad.rutinas.servicios.ServicioEntrena;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -44,6 +46,14 @@ public class EjercicioController {
                 .build()    //Crea UriComponents con los components previos contenidos en el builder
                 .toUri();   //Crea URI
     }
+    private List <Long> listaEntrenadoresDeCliente (List<AsignacionEntrenamientoDTO> l)
+    {
+        List<Long> idsEntrenadores = new ArrayList<>(); //Lista de los ids de los entrenadores del cliente
+        for(AsignacionEntrenamientoDTO asig: l){
+            idsEntrenadores.add(asig.getIdEntrenador());
+        }
+        return idsEntrenadores;
+    }
 
 
     @GetMapping("/{id}")
@@ -51,7 +61,7 @@ public class EjercicioController {
         var ejercicio = servicio.getEjercicio(id);
         Long idEoC = JwtUtil.getIdFromToken(auth); //Id del entrenador o del cliente
         Long idEntrenadorCreador = ejercicio.getEntrenador().longValue();
-        if (!idEoC.equals(idEntrenadorCreador) && servicioEntrena.getEntrenadorDeCliente(idEoC, authorizationHeader).isPresent() && !servicioEntrena.getEntrenadorDeCliente(idEoC, authorizationHeader).get().getIdEntrenador().equals(idEntrenadorCreador))
+        if (!idEoC.equals(idEntrenadorCreador) && servicioEntrena.getEntrenaPorCliente(idEoC, authorizationHeader).isPresent() && !listaEntrenadoresDeCliente(servicioEntrena.getEntrenaPorCliente(idEoC, authorizationHeader).get()).contains(idEntrenadorCreador))
             throw new BadCredentialsException("No tienes permisos para ver los ejercicios de otro entrenador");
         return Mapper.toEjercicioDTO(ejercicio, ejercicioUriBuilder(uriBuilder.build()));
     }

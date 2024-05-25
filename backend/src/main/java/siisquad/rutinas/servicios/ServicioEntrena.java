@@ -13,6 +13,7 @@ import siisquad.rutinas.dtos.AsignacionEntrenamientoDTO;
 import siisquad.rutinas.dtos.RutinaDTO;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class ServicioEntrena {
      * @param token supuestamente viene ya con Bearer
      * @return
      */
-    public Optional<AsignacionEntrenamientoDTO> getEntrenadorDeCliente(Long idCliente, String token)
+    public Optional<List<AsignacionEntrenamientoDTO>> getEntrenaPorCliente(Long idCliente, String token)
     {
         // Define las cabeceras de la solicitud y añade el token JWT
         HttpHeaders headers = new HttpHeaders();
@@ -45,7 +46,7 @@ public class ServicioEntrena {
 
         var peticion = RequestEntity.get("http://localhost:"+port+"/entrena?cliente="+idCliente.intValue()).headers(headers).build();
         var respuesta = restTemplate.exchange(peticion,
-                new ParameterizedTypeReference<AsignacionEntrenamientoDTO>() {});
+                new ParameterizedTypeReference<List<AsignacionEntrenamientoDTO>>() {});
         return Optional.ofNullable(respuesta.getBody());
     }
 
