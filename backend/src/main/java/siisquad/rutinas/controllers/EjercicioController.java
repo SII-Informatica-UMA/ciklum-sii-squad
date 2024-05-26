@@ -46,7 +46,7 @@ public class EjercicioController {
                 .build()    //Crea UriComponents con los components previos contenidos en el builder
                 .toUri();   //Crea URI
     }
-    private List <Long> listaEntrenadoresDeCliente (List<AsignacionEntrenamientoDTO> l)
+    public List <Long> listaEntrenadoresDeCliente (List<AsignacionEntrenamientoDTO> l)
     {
         List<Long> idsEntrenadores = new ArrayList<>(); //Lista de los ids de los entrenadores del cliente
         for(AsignacionEntrenamientoDTO asig: l){
@@ -90,7 +90,7 @@ public class EjercicioController {
         Long idEntreador = JwtUtil.getIdFromToken(auth);
         if (!idEntreador.equals(id))
             throw new BadCredentialsException("No tienes permisos para ver los ejercicios de otro entrenador");
-
+            
         var ejercicios = servicio.getEjerciciosPorEntrenador(id);
         return ejercicios.stream().map(e -> Mapper.toEjercicioDTO(e, ejercicioUriBuilder(uriBuilder.build()))).toList();
     }

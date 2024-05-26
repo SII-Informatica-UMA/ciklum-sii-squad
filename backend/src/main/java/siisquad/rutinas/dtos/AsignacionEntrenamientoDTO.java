@@ -18,4 +18,11 @@ public class AsignacionEntrenamientoDTO {
     private String especialidad;
     private Long id;
     private List<PlanDTO> planes;
+
+    public AsignacionEntrenamientoDTO(Long id, Long idEntrenador, Long idCliente) {
+        this.idEntrenador = idEntrenador;
+        this.idCliente = idCliente;
+        this.especialidad = especialidad;
+        this.id = id;
+    }
 }
