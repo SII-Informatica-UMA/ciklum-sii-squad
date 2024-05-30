@@ -2,7 +2,6 @@ package siisquad.rutinas.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import siisquad.rutinas.entities.EjercicioEnRutina;
 
 import java.util.List;
 

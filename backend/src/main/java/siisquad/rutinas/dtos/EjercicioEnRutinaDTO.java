@@ -1,7 +1,6 @@
 package siisquad.rutinas.dtos;
 
 import lombok.*;
-import siisquad.rutinas.entities.Ejercicio;
 
 @Getter
 @Setter

@@ -34,16 +34,10 @@ public class ServicioEjercicio {
     }
 
     public Ejercicio updateEjercicio(Ejercicio ejercicio) {
-        if (repositorioEjercicio.findById(ejercicio.getId()).isEmpty()) {
-            throw new EntidadNoEncontradaException();
-        }
         return repositorioEjercicio.save(ejercicio);
     }
 
     public void deleteEjercicio(Long id) {
-        if (!repositorioEjercicio.existsById(id)) {
-            throw new EntidadNoEncontradaException();
-        }
         repositorioEjercicio.deleteById(id);
     }
 

@@ -3,6 +3,8 @@ package siisquad.rutinas.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,6 +14,7 @@ import siisquad.rutinas.dtos.RutinaNuevaDTO;
 import siisquad.rutinas.entities.Rutina;
 import siisquad.rutinas.excepciones.EntidadExistenteException;
 import siisquad.rutinas.excepciones.EntidadNoEncontradaException;
+import siisquad.rutinas.security.JwtUtil;
 import siisquad.rutinas.servicios.ServicioRutina;
 
 import java.net.URI;
@@ -42,33 +45,49 @@ public class RutinaController {
 
 
     @GetMapping("/{id}")
-    public RutinaDTO obtenerRutina(@PathVariable Long id, UriComponentsBuilder uriBuilder) {
+    public RutinaDTO obtenerRutina(@PathVariable Long id, UriComponentsBuilder uriBuilder, Authentication auth) {
+        Integer idEntrenador = JwtUtil.getIdFromToken(auth).intValue();
         var rutina = servicio.getRutina(id);
+        if (!idEntrenador.equals(rutina.getEntrenador()))
+            throw new BadCredentialsException("No tienes permisos para ver las rutinas de otro entrenador");
         return Mapper.toRutinaDTO(rutina, rutinaUriBuilder(uriBuilder.build()), EjercicioController.ejercicioUriBuilder(uriBuilder.build()));
     }
 
     @PutMapping("/{id}")
-    public void actualizarRutina(@PathVariable Long id, @RequestBody RutinaNuevaDTO rutinaNuevaDTO) {
-        Rutina rutina = Mapper.toRutina(rutinaNuevaDTO);
+    public void actualizarRutina(@PathVariable Long id, @RequestBody RutinaNuevaDTO rutinaNuevaDTO, Authentication auth) {
+        Integer idEntrenador = JwtUtil.getIdFromToken(auth).intValue();
+        if (!idEntrenador.equals(servicio.getRutina(id).getEntrenador()))
+            throw new BadCredentialsException("No tienes permisos para modificar las rutinas de otro entrenador");
+        Rutina rutina = Mapper.toRutina(rutinaNuevaDTO,idEntrenador);
         rutina.setId(id);
         servicio.updateRutina(rutina);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarRutina(@PathVariable Long id) {
+    public void eliminarRutina(@PathVariable Long id, Authentication auth) {
+        Integer idEntrenador = JwtUtil.getIdFromToken(auth).intValue();
+        if (!idEntrenador.equals(servicio.getRutina(id).getEntrenador()))
+            throw new BadCredentialsException("No tienes permisos para borrar las rutinas de otro entrenador");
         servicio.deleteRutina(id);
     }
 
 
     @GetMapping
-    public List<RutinaDTO> obtenerRutinas(@RequestParam("entrenador") Long id, UriComponentsBuilder uriBuilder){
+    public List<RutinaDTO> obtenerRutinas(@RequestParam("entrenador") Long id, UriComponentsBuilder uriBuilder, Authentication auth){
+        Long idEntrenador = JwtUtil.getIdFromToken(auth);
+        if (!idEntrenador.equals(id))
+            throw new BadCredentialsException("No tienes permisos para ver las rutinas de otro entrenador");
         var rutina = servicio.getRutinasPorEntrenador(id);
         return rutina.stream().map(e -> Mapper.toRutinaDTO(e, rutinaUriBuilder(uriBuilder.build()), EjercicioController.ejercicioUriBuilder(uriBuilder.build()))).toList();
     }
 
     @PostMapping
-    public ResponseEntity<?> aniadirRutina(@RequestParam("entrenador") Long id, @RequestBody RutinaNuevaDTO rutinaNuevaDTO, UriComponentsBuilder uriBuilder){
-        Long idRutina = servicio.addRutina(id, Mapper.toRutina(rutinaNuevaDTO));
+    public ResponseEntity<?> aniadirRutina(@RequestParam("entrenador") Long id, @RequestBody RutinaNuevaDTO rutinaNuevaDTO, UriComponentsBuilder uriBuilder, Authentication auth){
+        Integer idEntreador = JwtUtil.getIdFromToken(auth).intValue();
+        if(!idEntreador.equals(id.intValue())){
+            throw new BadCredentialsException("No tienes permisos para crear rutinas de otro entrenador");
+        }
+        Long idRutina = servicio.addRutina(id, Mapper.toRutina(rutinaNuevaDTO,idEntreador));
         return ResponseEntity.created(rutinaUriBuilder(uriBuilder.build()).apply(idRutina))
                 .build();
     }
@@ -81,5 +100,7 @@ public class RutinaController {
     @ExceptionHandler(EntidadExistenteException.class)
     @ResponseStatus(code = HttpStatus.CONFLICT)
     public void existente() {}
-
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    public void errorAutenticacion() {}
 }

@@ -50,15 +50,14 @@ public class Mapper {
     /**
      * Convierte EjercicicioEnRutina a EjercicioEnRutinaDTO, conviertiendo su Ejercicio a EjercicioDTO
      * @param ejercicioEnRutina
-     * @param ejercicioUriBuilder
      * @return
      */
-    public static EjercicioEnRutina toEjercicioEnRutina (EjercicioEnRutinaDTO ejercicioEnRutina){
+    public static EjercicioEnRutina toEjercicioEnRutina (EjercicioEnRutinaDTO ejercicioEnRutina, Integer idEntrenador){
         return EjercicioEnRutina.builder()
                 .series(ejercicioEnRutina.getSeries())
                 .repeticiones(ejercicioEnRutina.getRepeticiones())
                 .duracionMinutos(ejercicioEnRutina.getDuracionMinutos())
-                .ejercicio(toEjercicio(ejercicioEnRutina.getEjercicio()))
+                .ejercicio(toEjercicio(ejercicioEnRutina.getEjercicio(), idEntrenador))
                 .build();
     }
 
@@ -67,10 +66,10 @@ public class Mapper {
      * @param rutinaNuevaDTO
      * @return Rutina
      */
-    public  static Rutina toRutina(RutinaNuevaDTO rutinaNuevaDTO) {
+    public  static Rutina toRutina(RutinaNuevaDTO rutinaNuevaDTO, Integer idEntrenador) {
         List<EjercicioEnRutina> ejercicios = null;
         if (rutinaNuevaDTO.getEjercicios() != null)
-            rutinaNuevaDTO.getEjercicios().stream().map(Mapper::toEjercicioEnRutina).toList();
+            rutinaNuevaDTO.getEjercicios().stream().map(e -> Mapper.toEjercicioEnRutina(e,idEntrenador)).toList();
         else
             ejercicios = new ArrayList<>(5);
         return Rutina.builder()
@@ -108,7 +107,7 @@ public class Mapper {
      * @param ejercicioNuevoDTO
      * @return Ejercicio
      */
-    public static Ejercicio toEjercicio(EjercicioNuevoDTO ejercicioNuevoDTO) {
+    public static Ejercicio toEjercicio(EjercicioNuevoDTO ejercicioNuevoDTO, Integer idEntrenador) {
         return Ejercicio.builder()
                 .nombre(ejercicioNuevoDTO.getNombre())
                 .descripcion(ejercicioNuevoDTO.getDescripcion())
@@ -118,9 +117,10 @@ public class Mapper {
                 .material(ejercicioNuevoDTO.getMaterial())
                 .dificultad(ejercicioNuevoDTO.getDificultad())
                 .multimedia(ejercicioNuevoDTO.getMultimedia())
+                .entrenador(idEntrenador)
                 .build();
     }
-    public static Ejercicio toEjercicio(EjercicioDTO ejercicioNuevoDTO) {
+    public static Ejercicio toEjercicio(EjercicioDTO ejercicioNuevoDTO, Integer idEntrenador) {
         return Ejercicio.builder()
                 .nombre(ejercicioNuevoDTO.getNombre())
                 .descripcion(ejercicioNuevoDTO.getDescripcion())
@@ -130,6 +130,7 @@ public class Mapper {
                 .material(ejercicioNuevoDTO.getMaterial())
                 .dificultad(ejercicioNuevoDTO.getDificultad())
                 .multimedia(ejercicioNuevoDTO.getMultimedia())
+                .entrenador(idEntrenador)
                 .build();
     }
 
