@@ -141,7 +141,9 @@ class RutinasApplicationTests {
 		@Test
 		@DisplayName("devuelve error al acceder a un ejercicio concreto")
 		public void errorEjercicioConcreto() {
-			var peticion = get("http", host,port, ejercicioPath + "/1243902834", jwtToken);
+
+      var peticion = get("http", host,port, ejercicioPath + "/1243902834", jwtToken);
+      
 			var respuesta = restTemplate.exchange(peticion,
 					new ParameterizedTypeReference<EjercicioDTO>() {});
 			
@@ -157,7 +159,6 @@ class RutinasApplicationTests {
 					new ParameterizedTypeReference<List<RutinaDTO>>() {});
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-
 			assertThat(respuesta.getBody()).isEqualTo(List.of());
 		}
 
@@ -172,11 +173,11 @@ class RutinasApplicationTests {
 			var peticion = post("http", host,port,rutinaPath+entrenadorParam, jwtToken, rutina);
  
 			var respuesta = restTemplate.exchange(peticion,Void.class);
+
 			System.err.println(respuesta);
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(201);
 
-		
 			List<Rutina> rutinasBD = rutinaRepo.findAll();
 			assertThat(rutinasBD).hasSize(1);
 			assertThat(rutina.getNombre()).isEqualTo(rutinasBD.get(0).getNombre());
@@ -300,12 +301,13 @@ class RutinasApplicationTests {
 		@DisplayName("Actualiza una rutina")
 		public void actualizaRutina(){
 			var rutina = RutinaDTO.builder().nombre("Rutina2").build();
-			var peticion = put("http", host,port, "/rutina/1", jwtToken, rutina);
+
+      var peticion = put("http", host,port, "/rutina/1", jwtToken, rutina);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
-			//assertThat(rutinaRepo.findById().get().getNombre()).isEqualTo("Rutina2");
+			assertThat(rutinaRepo.findById(1L).get().getNombre()).isEqualTo("Rutina2");
 		}
 
 		@Test 
@@ -338,6 +340,7 @@ class RutinasApplicationTests {
 			
 			var peticion = post("http", host,port, "/ejercicio?entrenador=0", jwtToken, ejercicio);
 
+
 			var respuesta = restTemplate.exchange(peticion,Void.class);
 
 			assertThat(respuesta.getStatusCode().value()).isEqualTo(409);
@@ -359,7 +362,8 @@ class RutinasApplicationTests {
 		@DisplayName("Actualiza un ejercicio")
 		public void actualizaEjercicio(){
 			var ejercicio = EjercicioDTO.builder().nombre("Ejercicio2").build();
-			var peticion = put("http", host,port, "/ejercicio/1", jwtToken, ejercicio);
+		  
+      var peticion = put("http", host,port, "/ejercicio/1", jwtToken, ejercicio);
 
 			var respuesta = restTemplate.exchange(peticion, Void.class);
 

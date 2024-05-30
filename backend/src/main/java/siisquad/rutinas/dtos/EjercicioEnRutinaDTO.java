@@ -10,8 +10,8 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 public class EjercicioEnRutinaDTO {
-    private int series;
-    private int repeticiones;
-    private int duracionMinutos;
+    private Integer series;
+    private Integer repeticiones;
+    private Integer duracionMinutos;
     private EjercicioDTO ejercicio;
 }

@@ -1,12 +1,11 @@
 package siisquad.rutinas.entities;
 
-import org.hibernate.annotations.Cascade;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.CascadeType;
 import lombok.*;
 
 @Getter
@@ -19,12 +18,11 @@ public class EjercicioEnRutina {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int series;
-    private int repeticiones;
-    private int duracionMinutos;
+    private Integer series;
+    private Integer repeticiones;
+    private Integer duracionMinutos;
 
-    @ManyToOne
-    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Ejercicio ejercicio;
 
     // toString
